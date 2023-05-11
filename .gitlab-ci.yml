@@ -14,7 +14,7 @@ deploy_dev:
     - dev
   script:
     - sudo rsync -avz --delete ./ $FRONT_DIR
-    - sudo sh -c "cd $FRONT_DIR && docker-compose -f docker-compose.dev.yaml up --build -d
+    - sudo sh -c "cd $FRONT_DIR && docker-compose -f docker-compose.dev.yaml up --build -d"
   
 deploy_prod:
   stage: deploy
@@ -24,5 +24,5 @@ deploy_prod:
     - main
   script:
     - sudo rsync -avz --delete ./ $PROD_FRONT_DIR
-    - sudo sh -c "cd $PROD_FRONT_DIR && docker-compose -f docker-compose.yaml up --build -d
+    - sudo sh -c "cd $PROD_FRONT_DIR && docker-compose -f docker-compose.yaml up --build -d"
   
