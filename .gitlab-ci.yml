@@ -9,7 +9,7 @@ stages:
 deploy_dev:
   stage: deploy
   tags:
-    - frontend
+    - front
   only:
     - dev
   script:
@@ -19,9 +19,9 @@ deploy_dev:
 deploy_prod:
   stage: deploy
   tags:
-    - frontend
+    - front
   only:
-    - stable
+    - main
   script:
     - sudo rsync -avz --delete ./ $PROD_FRONT_DIR
     - sudo sh -c "cd $PROD_FRONT_DIR && docker-compose -f docker-compose.yaml up --build -d
