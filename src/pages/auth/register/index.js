@@ -6,6 +6,7 @@ import Link from "next/link";
 import { FormProvider, useForm } from "react-hook-form";
 import { useNotify } from "@/services/notification/zustand";
 import { useSignupMutation } from "@/services/auth/api";
+import AuthLayout from "../../../layouts/auth";
 
 const Register = () => {
   const router = useRouter()
@@ -53,16 +54,17 @@ const Register = () => {
   const [showRepeat, setShowRepeat] = useState(false)
 
   return (
-    <div className="">
-      <div className="">
-        <h1>signup</h1>
+    <div className="card">
+      <div className="card__header">
+        <h2>Регистрация в <span className="text-blue-600  font-bold">mycareer.fun</span></h2>
+        </div>
         <FormProvider {...methods}>
-          <form onSubmit={methods.handleSubmit(submitHandler)} className="flex flex-col gap-6">
+          <form className="mt-8 space-y-6" onSubmit={methods.handleSubmit(submitHandler)}>
             <div>
               <input
-
                 type="text"
                 placeholder="email"
+                className="input"
                 {...methods.register("email", {
                   required: true,
                 })}
@@ -76,15 +78,16 @@ const Register = () => {
             <div>
               <div className="relative">
                 <input
+                  className="input"
                   type={show ? "text" : "password"}
                   placeholder={"password"}
                   {...methods.register("password", {
                     required: true,
                   })}
                 />
-                <div className="" onClick={() => setShow(!show)}>
+                {/* <div className="" onClick={() => setShow(!show)}>
                   {!show ? "glazik" : "glazik"}
-                </div>
+                </div> */}
               </div>
               {methods.formState.errors?.password && (
                 <p className="">
@@ -95,15 +98,16 @@ const Register = () => {
             <div>
               <div className="relative">
                 <input
+                  className="input"
                   type={!showRepeat ? "password" : "text"}
                   placeholder={"password-approve"}
                   {...methods.register("new_password_repeat", {
                     required: true,
                   })}
                 />
-                <div onClick={() => setShowRepeat(!showRepeat)}>
+                {/* <div onClick={() => setShowRepeat(!showRepeat)}>
                   {!showRepeat ? "glazok" : "ne glazok"}
-                </div>
+                </div> */}
               </div>
               {methods.formState.errors?.new_password_repeat && (
                 <p>
@@ -111,25 +115,28 @@ const Register = () => {
                 </p>
               )}
             </div>
-            <div className="w-full flex flex-col w-full">
+           
               <button
                 type="submit"
+                className="button w-fit"
               >
-                toSignUp
+                Зарегистраировать аккаунт
               </button>
-              <div className="">
-                <span>signupBridge</span>
+              <div className="flex gap-4 text-sm font-medium text-gray-900 dark:text-white">
+                <span>Есть аккаунт?</span>
                 <Link href="/auth/login/">
-                  <span>toLogin</span>
+                  <span className="link">Войти</span>
                 </Link>
               </div>
-            </div>
+           
           </form>
         </FormProvider>
-      </div>
+    
     </div>
   );
 };
 
 
 export default Register;
+
+Register.getLayout = page => <AuthLayout>{page}</AuthLayout>

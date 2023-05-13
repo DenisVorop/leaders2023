@@ -5,14 +5,17 @@ const nextConfig = {
     ignoreDuringBuilds: true
   },
   async rewrites () {
+    // if (process.env.NODE_ENV === "production") {
+    //   return []
+    // }
     return [
     {
       source: "/_next/:slug*",
       destination: "/_next/:slug*",
     },
     {
-      source: "/partner/:slug*",
-      destination: "http://65.21.179.123:8999/:slug*",
+      source: "/-auth-/:slug*",
+      destination: "https://mycareer.fun/-auth-/:slug*",
     }
   ]
 },

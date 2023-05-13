@@ -4,8 +4,6 @@ import { useRouter } from "next/router";
 import { useNotify } from "../notification/zustand"
 import { useEffect, useRef } from "react";
 
-import alerts from "../../components/alerts";
-
 const Guard = ({
   children,
   roles = [],
@@ -70,9 +68,8 @@ const Guard = ({
         delay: 2000,
         type: "danger",
         content: () => (
-          <alerts.Main>
+
           <div className="text-red-500">permission denied</div>
-          </alerts.Main>
         ),
       });
       router.push("/");

@@ -1,15 +1,23 @@
-import Link from 'next/link'
+import { useEffect } from "react";
+import { useMeQuery } from "../services/auth/api";
+import { useRouter } from "next/router";
 
 export default function Home() {
+  const router = useRouter()
+  const { data: session, isSuccess, isError } = useMeQuery()
 
-  return <div className="flex gap-3 w-full">
-    <Link href="/auth/login">
-        <button>auth</button>
-    </Link>
-    <Link href="/secure">
-        <button>secure</button>
-    </Link>
-    <div className="grow"></div>
-    <h1>Эй все готово? гоу</h1>
-  </div>
+  useEffect(() => {
+    if (!!session && isSuccess) {
+        router.push('/dash')
+    }
+  }, [isSuccess, session])
+
+  useEffect(() => {
+    if (isError) {
+        router.push('/auth/login')
+    }
+  }, [isError])
+
+  return null
+  
 }

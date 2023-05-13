@@ -24,7 +24,7 @@ const loggedOut = () => {
 const mutex = new Mutex();
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "/partner",
+  baseUrl: "/-auth-",
   prepareHeaders: (headers, { getState, endpoint }) => {
     const { accessToken, refreshToken } = useCredentialsStore.getState()
     if (endpoint === "refresh" && refreshToken) {
@@ -47,7 +47,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
       try {
         const refreshResult = await baseQuery(
           {
-            url: "/auth/refresh",
+            url: "/refresh",
             method: "POST",
           },
           { ...api, endpoint: "refresh" },
@@ -78,7 +78,7 @@ export const api = createApi({
     login: builder.mutation({
       query: (body) => {
         return {
-          url: "/auth/login",
+          url: "/login",
           method: "POST",
           body,
         };
@@ -92,10 +92,10 @@ export const api = createApi({
       },
     }),
     signup: builder.mutation({
-      query: (body) => ({ url: `/auth/sign-up`, method: "POST", body }),
+      query: (body) => ({ url: `/sign-up`, method: "POST", body }),
     }),
     logout: builder.mutation({
-      query: (body) => ({ url: `/auth/logout`, method: "POST" }),
+      query: (body) => ({ url: `/logout`, method: "POST" }),
       async onQueryStarted(body, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
@@ -106,19 +106,19 @@ export const api = createApi({
       },
     }),
     approve: builder.mutation({
-      query: (body) => ({ url: `/auth/send-email-confirmation`, method: "GET" }),
+      query: (body) => ({ url: `/send-email-confirmation`, method: "GET" }),
     }),
     confirm: builder.query({
-      query: (token) => ({ url: `/auth/confirm-email`, method: "PUT", body: { token } }),
+      query: (token) => ({ url: `/confirm-email`, method: "PUT", body: { token } }),
     }),
     forgot: builder.mutation({
-      query: (body) => ({ url: `/auth/forgot-password`, method: "POST", body }),
+      query: (body) => ({ url: `/forgot-password`, method: "POST", body }),
     }),
     resetPass: builder.mutation({
-      query: (body) => ({ url: `/auth/reset-password`, method: "PUT", body }),
+      query: (body) => ({ url: `/reset-password`, method: "PUT", body }),
     }),
     changePass: builder.mutation({
-      query: (body) => ({ url: `/auth/change-password`, method: "PUT", body }),
+      query: (body) => ({ url: `/change-password`, method: "PUT", body }),
     }),
     // refresh: builder.mutation({
     //   query: (body) => {
@@ -135,7 +135,7 @@ export const api = createApi({
     //   },
     // }),
     me: builder.query({
-      query: () => ({ url: `/auth/get-me` }),
+      query: () => ({ url: `/get-me` }),
       providesTags: ["User"],
     })
   })

@@ -3,6 +3,8 @@ import { createContext, useEffect, useMemo, useReducer, useCallback, useContext,
 import { AnimatePresence, motion } from "framer-motion";
 import { create } from "zustand"
 import { shallow } from "zustand/shallow"
+import AlertSuccess from "../../components/alerts/success";
+import AlertWarning from "../../components/alerts/warning";
 
 const useNotificationStore = create((set, get) => ({
   notifications: [],
@@ -43,15 +45,27 @@ const Toast = ({ toast, onClose }) => {
     }
   }, [onClose])
 
+  const Wrapper = useMemo(() => {
+    switch(toast?.type) {
+      case "error": {
+        return AlertError
+      }
+      case "warning": {
+        return AlertWarning
+      }
+      case "success": {
+        return AlertSuccess
+      }
+      default: return AlertWarning
+    }
+  }, [toast])
+
   return (
-    <div
-      className="flex h-fit order-1 lg:order-2 p-2 sm:p-4"
-      role="alert"
-    >
+    <Wrapper onClose={onClose}>
       <div className="flex">
         {renderItem(toast.content)}
       </div>
-    </div>
+    </Wrapper>
   );
 };
 
