@@ -16,7 +16,11 @@ const nextConfig = {
     {
       source: "/-auth-/:slug*",
       destination: "https://mycareer.fun/-auth-/:slug*",
-    }
+    },
+    {
+      source: "/-strapi-proxy-/:slug*",
+      destination: "http://77.232.137.109:1338/:slug*",
+    },
   ]
 },
 }

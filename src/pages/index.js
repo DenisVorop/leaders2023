@@ -19,5 +19,5 @@ export default function Home() {
   }, [isError])
 
   return null
-  
+
 }

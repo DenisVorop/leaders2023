@@ -1,23 +1,24 @@
 import "@/styles/globals.css";
 import { NotifyProvider } from '@/services/notification/zustand';
-
-import store from "@/services/store"
+// import store from "@/services/store"
 import { Provider as StoreProvider } from "react-redux"
 import Script from "next/script";
 
 import { Montserrat } from "next/font/google";
 import { useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
-import Guard from "@/services/auth/guard";
+// import Guard from '../services/auth/guard'
+import Guard from '@/services/auth/guard'
 
 import posthog from "posthog-js"
 import { PostHogProvider } from "posthog-js/react"
+import { wrapper } from "@/services/store";
 import { useProgressBar } from "../hooks/use-progress-bar";
 
 import { configureAbly } from "@ably-labs/react-hooks";
 
 const font = Montserrat({
-  subsets: ["latin"]
+  subsets: ["latin", 'cyrillic']
 })
 
 
@@ -37,6 +38,8 @@ configureAbly({ authUrl: "http://localhost:3000/api/chat/auth" });
 
 
 export default function App({ Component, pageProps }) {
+  const { store } = wrapper.useWrappedStore(pageProps);
+
   const router = useRouter()
   const { width, start, complete, reset } = useProgressBar({ transitionSpeed });
 
@@ -58,13 +61,15 @@ export default function App({ Component, pageProps }) {
 
   const getLayout = useMemo(() => {
     const getter = Component.getLayout ?? ((page) => page)
-    return (page) => !Component.auth ? getter(page) : <Guard
-      roles={Component.auth.roles ?? []}
-      verification={Component.auth.verification ?? []}
-    >
-      {getter(page)}
-    </Guard>
-  }, [Component, pageProps])
+    return (page) => !Component.auth
+      ? getter(page)
+      : <Guard
+        roles={Component.auth.roles ?? []}
+        verification={Component.auth.verification ?? []}
+      >
+        {getter(page)}
+      </Guard>
+  }, [Component])
 
   return <StoreProvider store={store}>
     <Script strategy="beforeInteractive" src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></Script>

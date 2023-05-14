@@ -38,7 +38,7 @@ const Guard = ({
         delay: 2000,
         type: "success",
         content: () => (
-          
+
           <div className="text-green-500">send_success</div>
         ),
       });
