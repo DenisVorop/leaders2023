@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { useConfirmQuery, useMeQuery } from "@/services/auth/api";
+import AuthLayout from "../../../layouts/auth";
 
 
 const ApproveEmailPage = ({ code }) => {
@@ -69,3 +70,5 @@ export const getServerSideProps = async (ctx) => {
 };
 
 export default ApproveEmailPage;
+
+ApproveEmailPage.getLayout = page => <AuthLayout>{page}</AuthLayout>

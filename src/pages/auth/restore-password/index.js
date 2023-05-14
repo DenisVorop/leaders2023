@@ -3,6 +3,7 @@ import { FormProvider, useForm } from "react-hook-form";
 
 import { useNotify } from "@/services/notification/zustand";
 import { useForgotMutation } from "@/services/auth/api";
+import AuthLayout from "../../../layouts/auth";
 
 const RestorePassword = () => {
   const methods = useForm({ mode: "onBlur" });
@@ -99,3 +100,7 @@ const RestorePassword = () => {
 };
 
 export default RestorePassword;
+RestorePassword.getLayout = page => <AuthLayout>{page}</AuthLayout>
+
+
+

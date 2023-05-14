@@ -4,11 +4,13 @@ import { api as authApi } from "./auth/api"
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import { useDispatch } from 'react-redux';
 import { contentApi } from './content/api';
+import { api as activityApi } from "./activity/api"
 
 
 const combinedReducer = combineReducers({
   [authApi.reducerPath]: authApi.reducer,
   [contentApi.reducerPath]: contentApi.reducer,
+  [activityApi.reducerPath]: activityApi.reducer,
 });
 
 
@@ -32,6 +34,7 @@ export const store = configureStore({
   middleware: (gDM) => gDM().concat([
     authApi.middleware,
     contentApi.middleware,
+    activityApi.middleware,
   ]),
 })
 

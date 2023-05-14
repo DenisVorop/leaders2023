@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { FormProvider, useForm } from "react-hook-form";
 import { useResetPassMutation } from "@/services/auth/api";
 import { useNotify } from "@/services/notification/zustand";
+import AuthLayout from "../../../layouts/auth";
 
 const ResetPassword = ({ token }) => {
   const router = useRouter();
@@ -123,3 +124,7 @@ export const getServerSideProps = async (ctx) => {
 };
 
 export default ResetPassword;
+
+ResetPassword.getLayout = page => <AuthLayout>{page}</AuthLayout>
+
+
