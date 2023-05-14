@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 
 import { FormProvider, useForm } from "react-hook-form";
 import { useLoginMutation } from "@/services/auth/api";
-import { useNotify } from "@/services/notification/zustand";
+import { useNotify } from "../../../services/notification/zustand";
 
 const Login = () => {
   const [login, { isSuccess, isError, isLoading }] = useLoginMutation();
@@ -47,7 +47,7 @@ const Login = () => {
   useEffect(() => {
     if (isError) {
       notify({
-        type: "danger",
+        type: 'danger',
         delay: 3000,
         content: () => (
           <div className="text-red-500">invalid auth</div>

@@ -9,7 +9,7 @@ const useNotificationStore = create((set, get) => ({
   add: (toast) => {
     set((state) => ({
       notifications: [
-        ...state.notifications, 
+        ...state.notifications,
         {
           id: +new Date(),
           content: toast.content,
@@ -20,7 +20,7 @@ const useNotificationStore = create((set, get) => ({
     }))
   },
   remove: (toast) => {
-  
+
     set((state) => ({ notifications: state.notifications.filter(elem => elem.id !== toast.id) }))
   },
   clear: () => set({ notifications: [] })
@@ -106,4 +106,3 @@ export const useNotify = (init) => {
     shallow
   )
 }
-

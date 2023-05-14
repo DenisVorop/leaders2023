@@ -40,7 +40,7 @@ const Guard = ({
         delay: 2000,
         type: "success",
         content: () => (
-          
+
           <div className="text-green-500">send_success</div>
         ),
       });
@@ -71,7 +71,7 @@ const Guard = ({
         type: "danger",
         content: () => (
           <alerts.Main>
-          <div className="text-red-500">permission denied</div>
+            <div className="text-red-500">permission denied</div>
           </alerts.Main>
         ),
       });

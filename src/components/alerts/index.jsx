@@ -1,4 +1,4 @@
-import MainAlert from "./main" 
+import MainAlert from "./main"
 import MessageAlert from "./message"
 import PromptAlert from "./prompt"
 

@@ -1,19 +1,20 @@
 import "@/styles/globals.css";
 import { NotifyProvider } from '@/services/notification/zustand';
-
-import store from "@/services/store"
+// import store from "@/services/store"
 import { Provider as StoreProvider } from "react-redux"
 
 import { Montserrat } from "next/font/google";
 import { useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
-import Guard from "@/services/auth/guard";
+// import Guard from '../services/auth/guard'
+import Guard from '@/services/auth/guard'
 
 import posthog from "posthog-js"
 import { PostHogProvider } from "posthog-js/react"
+import { wrapper } from "@/services/store";
 
 const font = Montserrat({
-  subsets: ["latin"]
+  subsets: ["latin", 'cyrillic']
 })
 
 if (typeof window !== 'undefined') {
@@ -27,6 +28,8 @@ if (typeof window !== 'undefined') {
 }
 
 export default function App({ Component, pageProps }) {
+  const { store } = wrapper.useWrappedStore(pageProps);
+
   const router = useRouter()
 
   useEffect(() => {
@@ -37,24 +40,28 @@ export default function App({ Component, pageProps }) {
       router.events.off("routeChangeComplete", handleRouteChange)
     }
   }, [])
-  
+
   const getLayout = useMemo(() => {
     const getter = Component.getLayout ?? ((page) => page)
-    return (page) => !Component.auth ? getter(page) : <Guard
-      roles={Component.auth.roles ?? []}
-      verification={Component.auth.verification ?? []}
-    >
-      {getter(page)}
-    </Guard>
-  }, [Component, pageProps])
+    return (page) => !Component.auth
+      ? getter(page)
+      : <Guard
+        roles={Component.auth.roles ?? []}
+        verification={Component.auth.verification ?? []}
+      >
+        {getter(page)}
+      </Guard>
+  }, [Component])
 
-  return <StoreProvider store={store}>
-    <PostHogProvider client={posthog}>
-    <NotifyProvider>
-      <main className={`flex min-h-screen items-center justify-between p-24 ${font.className}`}>
-        {getLayout(<Component {...pageProps} />)}
-      </main>
-    </NotifyProvider>
-    </PostHogProvider>
-  </StoreProvider>
+  return (
+    <StoreProvider store={store}>
+      <PostHogProvider client={posthog}>
+        <NotifyProvider>
+          <main className={`flex min-h-screen items-center justify-between p-24 ${font.className}`}>
+            {getLayout(<Component {...pageProps} />)}
+          </main>
+        </NotifyProvider>
+      </PostHogProvider>
+    </StoreProvider>
+  )
 }
