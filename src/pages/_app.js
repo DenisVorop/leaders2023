@@ -14,9 +14,12 @@ import posthog from "posthog-js"
 import { PostHogProvider } from "posthog-js/react"
 import { useProgressBar } from "../hooks/use-progress-bar";
 
+import { configureAbly } from "@ably-labs/react-hooks";
+
 const font = Montserrat({
   subsets: ["latin"]
 })
+
 
 if (typeof window !== 'undefined') {
   posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
@@ -30,6 +33,8 @@ if (typeof window !== 'undefined') {
 }
 
 const transitionSpeed = 600;
+configureAbly({ authUrl: "http://localhost:3000/api/chat/auth" });
+
 
 export default function App({ Component, pageProps }) {
   const router = useRouter()
