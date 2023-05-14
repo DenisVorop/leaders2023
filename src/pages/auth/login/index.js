@@ -23,7 +23,7 @@ const Login = () => {
 
   const submitHandler = async (e) => {
     const credentials = {
-      email: e.email,
+      email: e.email.toLowerCase(),
       password: e.password,
     };
 
@@ -121,7 +121,7 @@ const Login = () => {
           <div className="text-sm font-medium text-gray-900 dark:text-white">
 
             Еще не зарегистрирован? <Link href="/auth/register" >
-            
+
             <span className="link">  Создать аккаунт</span>
             </Link>
           </div>

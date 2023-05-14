@@ -75,12 +75,14 @@ export default function App({ Component, pageProps }) {
     <Script strategy="beforeInteractive" src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></Script>
     <PostHogProvider client={posthog}>
       <NotifyProvider>
-        {width > 0 && <div className="w-full absolute top-0 bg-gray-200 h-1 dark:bg-gray-700">
-          <div className="bg-blue-600 h-1" style={{
-            width: `${width}%`,
-            transition: `width ${width > 1 ? transitionSpeed : 0}`
-          }}></div>
-        </div>}
+        {width > 0 &&
+          <div className="w-full absolute top-0 bg-gray-200 h-1 dark:bg-gray-700">
+            <div className="bg-blue-600 h-1" style={{
+              width: `${width}%`,
+              transition: `width ${width > 1 ? transitionSpeed : 0}`
+            }} />
+          </div>
+        }
         <main className={`${font.className}`}>
           {getLayout(<Component {...pageProps} />)}
         </main>

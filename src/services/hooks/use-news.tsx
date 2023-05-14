@@ -1,11 +1,11 @@
-import { EParams, ESortDirections, INews, TNewsData, TNewsRequest, useGetNewsQuery } from "../content/api"
+import { ESortParams, ESortDirections, INews, TNewsData, TNewsRequest, useGetNewsQuery } from "../content/api"
 import { useNotify } from "../notification/zustand"
 
 export const initialNewsParams = {
     offset: 0,
     limit: 20,
     searchQuery: '',
-    param: EParams.CREATED_AT,
+    param: ESortParams.CREATED_AT,
     sortDirection: ESortDirections.DESC,
 }
 

@@ -20,7 +20,7 @@ const Chat = ({ channelName = "default" }) => {
 
   useEffect(() => {
     channel.history((err, result) => {
-      setMessages(state => [...result.items, ...state])
+      setMessages(state => [...(result?.items ?? []), ...state])
     })
   }, [channel])
 
@@ -39,7 +39,7 @@ const Chat = ({ channelName = "default" }) => {
   }
 
   const chatMessages = useMemo(() => messages.map((msg) => ({ ...msg, other: author !== msg?.data?.message?.author })), [messages, author])
- 
+
 
   return <div className="flex-1 p:2 sm:p-6 max-w-2xl justify-between flex flex-col h-screen">
     <div className="flex sm:items-center justify-between py-3 border-b-2 border-gray-200">
