@@ -10,6 +10,7 @@ import { useGetExperienceQuery, useGetProfileQuery } from "@/services/profile/ap
 import { FC, useEffect } from "react"
 import Education from "@/features/profile/education"
 import Experience from "@/features/profile/experience"
+import { useRouter } from "next/router"
 
 enum ENavigationItems {
     LK = 'Личные данные',
@@ -57,6 +58,7 @@ const Profile: FC<IProfileProps> = () => {
     const { data: userExperience, isLoading: isLoadingUserExperience } = useGetExperienceQuery(null)
     const [activeItem, setActiveItem] = useSessionStorage(EMenu.ITEM, ENavigationItems.LK)
     const [notify] = useNotify()
+    const router = useRouter()
 
     useEffect(() => {
         if (!isErrorLoadingSession) return
@@ -64,7 +66,12 @@ const Profile: FC<IProfileProps> = () => {
         notify({ type: 'danger', content: () => 'Произошла ошибка при загрузке данных' })
     }, [isErrorLoadingSession, notify])
 
-    console.log(session, userProfile)
+    useEffect(() => {
+        if (userProfile) return
+
+        notify({ type: 'danger', content: () => 'Необходимо заполнить анкету' })
+        router.push('/personal-form')
+    }, [router, userProfile])
 
     useEffect(() => {
         return () => {
@@ -73,6 +80,7 @@ const Profile: FC<IProfileProps> = () => {
     }, [])
 
     if (isLoadingSession || isLoadingUserProfile || isLoadingUserExperience) return <Spinner />
+    if (!userProfile) return <></>
 
     return (
         <div>

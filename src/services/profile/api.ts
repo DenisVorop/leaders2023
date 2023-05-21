@@ -60,7 +60,7 @@ export const profileApi = createApi({
             providesTags: ["Profile"],
             transformResponse: (response: TUserProfile) => response
         }),
-        getExperience: builder.query<IExperienceData[], null>({
+        getExperience: builder.query<(IExperienceData & { experience_id: number })[], null>({
             query: () => {
                 return {
                     url: `/user/experience`,
@@ -68,7 +68,7 @@ export const profileApi = createApi({
                 }
             },
             providesTags: ["Profile"],
-            transformResponse: (response: IExperienceData[]) => response
+            transformResponse: (response: (IExperienceData & { experience_id: number })[]) => response
         }),
     })
 })

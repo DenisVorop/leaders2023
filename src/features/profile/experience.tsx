@@ -9,7 +9,6 @@ interface IExperienceProps {
 const Experience: FC<IExperienceProps> = ({
     experience,
 }) => {
-    console.log(experience)
     return (
         <div className='flex flex-col gap-6'>
             <span className=' font-bold'>Опыт работы</span>

@@ -25,7 +25,7 @@ const SendedStep: FC<ISendedStepProps> = ({
     const [createProfile] = useCreateProfileMutation()
     const [createProfileExperience] = useCreateProfileExperienceMutation()
     const [notify] = useNotify();
-    console.log(experienceData)
+
     useLayoutEffect(() => {
         if (
             !personalData || !passportData ||
