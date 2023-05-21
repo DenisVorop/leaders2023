@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import "@/styles/globals.css";
 import { NotifyProvider } from '@/services/notification/zustand';
 // import store from "@/services/store"
@@ -72,7 +73,6 @@ export default function App({ Component, pageProps }) {
   }, [Component])
 
   return <StoreProvider store={store}>
-    <Script strategy="beforeInteractive" src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></Script>
     <PostHogProvider client={posthog}>
       <NotifyProvider>
         {width > 0 &&
@@ -83,7 +83,7 @@ export default function App({ Component, pageProps }) {
             }} />
           </div>
         }
-        <main className={`${font.className}`}>
+        <main className={`${font.className} min-h-screen flex flex-col bg-center bg-no-repeat bg-[url('/background.webp')] bg-cover`}>
           {getLayout(<Component {...pageProps} />)}
         </main>
       </NotifyProvider>

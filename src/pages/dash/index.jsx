@@ -1,7 +1,8 @@
 
 
-import { useEffect, useMemo } from "react"
+import { useMemo } from "react"
 import DashLayout from "../../layouts/dash"
+import MainLayout from "../../layouts/main"
 import { useMeQuery } from "../../services/auth/api"
 
 

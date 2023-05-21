@@ -48,7 +48,7 @@ const DashLayout = ({ children }) => {
                     <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white  " role="menuitem">
                       Подтвердите аккаунт</a>
                     <div className="h-full px-2 absolute flex items-center right-0">
-                      <span class="flex w-2 h-2 bg-green-500 rounded-full animate-ping "></span>
+                      <span className="flex w-2 h-2 bg-green-500 rounded-full animate-ping "></span>
                     </div>
                   </li>
                   <li onClick={logout}>
