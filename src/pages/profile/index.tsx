@@ -61,17 +61,14 @@ const Profile: FC<IProfileProps> = () => {
     const router = useRouter()
 
     useEffect(() => {
-        if (!isErrorLoadingSession) return
-
-        notify({ type: 'danger', content: () => 'Произошла ошибка при загрузке данных' })
-    }, [isErrorLoadingSession, notify])
-
-    useEffect(() => {
-        if (userProfile) return
-
-        notify({ type: 'danger', content: () => 'Необходимо заполнить анкету' })
-        router.push('/personal-form')
-    }, [router, userProfile])
+        if (isErrorLoadingSession) {
+            notify({ type: 'danger', content: () => 'Произошла ошибка при загрузке данных' })
+        }
+        if (!userProfile && !isLoadingUserProfile) {
+            notify({ type: 'danger', content: () => 'Необходимо заполнить анкету' })
+            router.push('/personal-form')
+        }
+    }, [isErrorLoadingSession, isLoadingUserProfile, router, userProfile])
 
     useEffect(() => {
         return () => {

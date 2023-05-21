@@ -23,7 +23,7 @@ const Personal: FC<IPersonalProps> = ({
             </div>
             <div className='flex flex-col gap-3'>
                 <div className=' text-sm flex items-center gap-4'>
-                    +7 (915) 224-25-57
+                    {profile?.contact || 'Вы не указали номер телефона'}
                     <span
                         className='text-purple-600 text-sm cursor-pointer'
                     >
@@ -31,7 +31,7 @@ const Personal: FC<IPersonalProps> = ({
                     </span>
                 </div>
                 <div className=' text-sm flex items-center gap-4'>
-                    kropotovada@hotmail.com
+                    {profile.email}
                     <span
                         className='text-purple-600 text-sm cursor-pointer'
                     >
