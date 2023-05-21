@@ -1,4 +1,4 @@
-import { initialNewsParams, isTNewsData, useNews } from '@/services/hooks/use-news'
+import { initialContentParams, isTNewsData, useNews } from '@/services/hooks/use-news'
 import { isArrayOfStrings } from '@/types/type-guards'
 import { toStatic } from '@/utils/utils'
 import Image from 'next/image'
@@ -8,7 +8,7 @@ import Slider from '../slider/slider'
 
 interface INewsCardProps { }
 
-const query = { ...initialNewsParams, limit: 5 }
+const query = { ...initialContentParams, limit: 5 }
 
 const NewsCard: React.FC<INewsCardProps> = () => {
     const [newsData, isLoading] = useNews({ newsParams: query })

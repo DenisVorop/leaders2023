@@ -1,7 +1,7 @@
 import Card from '@/components/cards/card'
 import SearchInput from '@/components/inputs/search-input'
-import { ESortDirections, ESortParams, TNewsRequest, contentApi } from '@/services/content/api'
-import { initialNewsParams, useNews } from '@/services/hooks/use-news'
+import { ESortDirections, ESortParams, TContentRequest, contentApi } from '@/services/content/api'
+import { initialContentParams, useNews } from '@/services/hooks/use-news'
 import { TStore, wrapper } from '@/services/store'
 import { changeSortDirection } from '@/utils/utils'
 import { Dropdown } from 'flowbite-react'
@@ -10,7 +10,7 @@ import { FC, useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 interface INewsProps {
-    initialNewsParams: TNewsRequest
+    initialContentParams: TContentRequest
 }
 
 const helperDirectionFunc = (sortDirection: ESortDirections) => sortDirection === ESortDirections.ASC ? 'по возрастанию' : 'по убыванию'
@@ -27,9 +27,9 @@ const sortParams: { label: string, param: ESortParams }[] = [
 ]
 
 const News: FC<INewsProps> = ({
-    initialNewsParams,
+    initialContentParams,
 }) => {
-    const [newsParams, setNewsParams] = useState(initialNewsParams)
+    const [newsParams, setNewsParams] = useState(initialContentParams)
     const [newsData] = useNews({ newsParams })
     const { register, getValues } = useForm()
 
@@ -89,12 +89,12 @@ const News: FC<INewsProps> = ({
 
 export const getStaticProps = wrapper.getStaticProps(
     (store: TStore) => async (ctx: GetStaticPropsContext) => {
-        store.dispatch(contentApi.endpoints.getNews.initiate(initialNewsParams));
-        await store.dispatch(contentApi.util.getRunningQueryThunk('getNews', initialNewsParams));
+        store.dispatch(contentApi.endpoints.getNews.initiate(initialContentParams));
+        await store.dispatch(contentApi.util.getRunningQueryThunk('getNews', initialContentParams));
 
         return {
             props: {
-                initialNewsParams,
+                initialContentParams,
             }
         }
     }

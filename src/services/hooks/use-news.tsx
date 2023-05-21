@@ -1,6 +1,6 @@
-import { ESortParams, ESortDirections, INews, TNewsData, TNewsRequest, useGetNewsQuery } from "../content/api"
+import { ESortParams, ESortDirections, INews, TNewsData, TContentRequest, useGetNewsQuery } from "../content/api"
 
-export const initialNewsParams = {
+export const initialContentParams = {
     offset: 0,
     limit: 20,
     searchQuery: '',
@@ -10,9 +10,9 @@ export const initialNewsParams = {
 
 const SEC_60 = 60 * 1000
 
-interface IParams { interval?: number, newsParams?: TNewsRequest }
+interface IParams { interval?: number, newsParams?: TContentRequest }
 export const useNews = (params: IParams): [TNewsData, boolean] => {
-    const { data: newsData, isLoading } = useGetNewsQuery(params?.newsParams ?? initialNewsParams, {
+    const { data: newsData, isLoading } = useGetNewsQuery(params?.newsParams ?? initialContentParams, {
         pollingInterval: params?.interval || SEC_60
     })
 

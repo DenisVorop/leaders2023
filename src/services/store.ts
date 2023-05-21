@@ -5,12 +5,14 @@ import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import { useDispatch } from 'react-redux';
 import { contentApi } from './content/api';
 import { api as activityApi } from "./activity/api"
+import { profileApi } from './profile/api';
 
 
 const combinedReducer = combineReducers({
   [authApi.reducerPath]: authApi.reducer,
   [contentApi.reducerPath]: contentApi.reducer,
   [activityApi.reducerPath]: activityApi.reducer,
+  [profileApi.reducerPath]: profileApi.reducer,
 });
 
 
@@ -35,6 +37,7 @@ export const store = configureStore({
     authApi.middleware,
     contentApi.middleware,
     activityApi.middleware,
+    profileApi.middleware,
   ]),
 })
 

@@ -11,12 +11,12 @@ interface IEducationStepProps {
 export interface IEducationData {
     education: string
     university: string
-    dateEnd: string
+    yearGraduation: string
 }
 
 const EducationStep: FC<IEducationStepProps> = ({ setStep }) => {
     const [educationData, setEducationData] = useSessionStorage<IEducationData>(ESteps.EDUCATION, {
-        education: '', university: '', dateEnd: ''
+        education: '', university: '', yearGraduation: ''
     })
     const { handleSubmit, register, reset, getValues, formState: { errors } } = useForm<IEducationData>({
         defaultValues: educationData
@@ -54,11 +54,11 @@ const EducationStep: FC<IEducationStepProps> = ({ setStep }) => {
                         />
                     </div>
                     <div>
-                        <label htmlFor="dateEnd" className="label">Год окончания университета</label>
+                        <label htmlFor="yearGraduation" className="label">Год окончания университета</label>
                         <input
-                            id="dateEnd"
+                            id="yearGraduation"
                             type="month"
-                            {...register('dateEnd', { required: true })}
+                            {...register('yearGraduation', { required: true })}
                             className="input"
                             required
                             placeholder="10.07.2001"

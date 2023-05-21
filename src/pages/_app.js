@@ -5,7 +5,7 @@ import { NotifyProvider } from '@/services/notification/zustand';
 import { Provider as StoreProvider } from "react-redux"
 import Script from "next/script";
 
-import { Montserrat } from "next/font/google";
+import { Mulish } from "next/font/google";
 import { useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
 // import Guard from '../services/auth/guard'
@@ -18,7 +18,7 @@ import { useProgressBar } from "../hooks/use-progress-bar";
 
 import { configureAbly } from "@ably-labs/react-hooks";
 
-const font = Montserrat({
+const font = Mulish({
   subsets: ["latin", 'cyrillic']
 })
 

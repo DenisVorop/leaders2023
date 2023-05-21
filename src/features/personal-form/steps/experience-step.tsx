@@ -68,14 +68,18 @@ const ExperienceStep: FC<IExperienceStepProps> = ({ setStep }) => {
                     </div>
                 </div>
 
-                <label htmlFor="description" className="label">Опишите свой опыт работы</label>
-                <textarea
-                    id="description"
-                    rows={4}
-                    className="textarea"
-                    placeholder=""
-                    {...register('description', { required: true })}
-                />
+                <div className="grid grid-cols-3">
+                    <div className=" col-span-2">
+                        <label htmlFor="description" className="label">Опишите свой опыт работы</label>
+                        <textarea
+                            id="description"
+                            rows={4}
+                            className="textarea"
+                            placeholder=""
+                            {...register('description', { required: true })}
+                        />
+                    </div>
+                </div>
             </div>
 
             <div className="flex items-center gap-1 text-sm text-gray-500 cursor-not-allowed w-fit">

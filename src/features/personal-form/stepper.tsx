@@ -1,6 +1,13 @@
 import { FC, memo } from 'react'
 import { useSessionStorage } from '@/hooks/use-session-storage'
 import { PassportDataStep, PersonalDataStep, EducationDataStep, ExperienceDataStep, SendedDataStep } from './steps'
+import Link from 'next/link'
+import useReadSessionStorage from '@/hooks/use-read-session-storage'
+import { IEducationData } from './steps/education-step'
+import { IExperienceData } from './steps/experience-step'
+import { IPassportData } from './steps/passport-data-step'
+import { IPersonalData } from './steps/personal-data-step'
+import Back from '@/components/back/back'
 
 
 // CREATE TABLE IF NOT EXISTS profiles(
@@ -26,19 +33,19 @@ export enum ESteps {
 const Stepper: FC<IStepperProps> = () => {
     const [step, setStep] = useSessionStorage('step', 0)
 
+    const personalData = useReadSessionStorage<IPersonalData>(ESteps.PERSONAL)
+    const passportData = useReadSessionStorage<IPassportData>(ESteps.PASSPORT)
+    const educationData = useReadSessionStorage<IEducationData>(ESteps.EDUCATION)
+    const experienceData = useReadSessionStorage<IExperienceData[]>(ESteps.EXPERIENCE)
+
     const isDoneSvg = <svg aria-hidden="true" className="w-4 h-4 mr-2 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
     const isDoneClass = 'text-purple-600 dark:text-purple-500'
 
     return (
         <div className='card flex flex-col gap-6'>
             <div className='flex flex-col gap-4'>
-                <span className='inline-flex items-center gap-[2px] text-gray-500 cursor-pointer hover:text-purple-700'>
-                    <svg className='w-4 h-4' fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                    </svg>
-                    На главную
-                </span>
-                <h1 className='text-gray-900 text-xl'>Заявка</h1>
+                <Back />
+                <h1 className='text-gray-900 text-xl'>Анкета</h1>
             </div>
 
             <ol className="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base">
@@ -70,7 +77,14 @@ const Stepper: FC<IStepperProps> = () => {
             {step === 1 && <PassportDataStep setStep={setStep} />}
             {step === 2 && <EducationDataStep setStep={setStep} />}
             {step === 3 && <ExperienceDataStep setStep={setStep} />}
-            {step === 4 && <SendedDataStep setStep={setStep} />}
+            {step === 4 &&
+                <SendedDataStep
+                    personalData={personalData}
+                    passportData={passportData}
+                    educationData={educationData}
+                    experienceData={experienceData}
+                />
+            }
         </div>
     )
 }

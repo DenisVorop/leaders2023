@@ -46,7 +46,7 @@ const Toast = ({ toast, onClose }) => {
   }, [onClose])
 
   const Wrapper = useMemo(() => {
-    switch(toast?.type) {
+    switch (toast?.type) {
       case "error": {
         return AlertError
       }

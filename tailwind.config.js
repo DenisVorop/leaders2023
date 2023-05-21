@@ -10,6 +10,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      backgroundColor: {
+        'white-opacity': 'rgba(255, 255, 255, 0.8)',
+      }
     },
   },
   plugins: [
