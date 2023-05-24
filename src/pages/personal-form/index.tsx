@@ -9,9 +9,23 @@ import { FC, useEffect } from 'react'
 interface IPersonalFormProps { }
 
 const PersonalForm: FC<IPersonalFormProps> = () => {
-    const { data: profile, isLoading } = useGetProfileQuery(null)
+    const { data: profile, isLoading, isError } = useGetProfileQuery(null)
     const [notify] = useNotify()
     const router = useRouter()
+
+    useEffect(() => {
+        if (!isError) return
+
+        notify({
+            type: 'danger',
+            delay: 5_000,
+            content: () =>
+                <div>
+                    Произошла ошибка на сервере, мы уже работаем на ее устранением
+                </div>
+        })
+        router.push('/dashboard')
+    }, [isError])
 
 
     useEffect(() => {

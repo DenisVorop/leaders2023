@@ -7,7 +7,7 @@ import MainLayout from "@/layouts/main"
 import { useMeQuery } from "@/services/auth/api"
 import { useNotify } from "@/services/notification/zustand"
 import { useGetExperienceQuery, useGetProfileQuery } from "@/services/profile/api"
-import { FC, useEffect } from "react"
+import { FC, ReactNode, useEffect } from "react"
 import Education from "@/features/profile/education"
 import Experience from "@/features/profile/experience"
 import { useRouter } from "next/router"
@@ -122,6 +122,6 @@ const Profile: FC<IProfileProps> = () => {
 }
 
 // @ts-ignore
-Profile.getLayout = (page: typeof Profile) => <MainLayout>{page}</MainLayout>
+Profile.getLayout = (page: ReactNode) => <MainLayout>{page}</MainLayout>
 
 export default Profile

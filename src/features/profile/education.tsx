@@ -2,7 +2,7 @@ import { TUserProfile } from '@/types/types'
 import { FC, memo } from 'react'
 
 interface IEducationProps {
-    profile: TUserProfile
+    profile: TUserProfile | undefined
 }
 
 const Education: FC<IEducationProps> = ({
@@ -14,11 +14,11 @@ const Education: FC<IEducationProps> = ({
             <div className='flex flex-col gap-3 text-sm'>
                 <div className='flex flex-col gap-2'>
                     <span className='text-gray-500'>Уровень образования</span>
-                    <span className='font-medium'>{profile.education}</span>
+                    <span className='font-medium'>{profile?.education}</span>
                 </div>
                 <div className='flex flex-col gap-2'>
                     <span className='text-gray-500'>Университет</span>
-                    <span className='font-medium'>{profile.university}</span>
+                    <span className='font-medium'>{profile?.university}</span>
                 </div>
             </div>
         </div>

@@ -26,7 +26,7 @@ const nextConfig = {
       destination: "https://mycareer.fun/-auth-/:slug*",
     },
     {
-      source: "/:slug*",
+      source: "/backend/:slug*",
       destination: "https://mycareer.fun/:slug*",
     },
     {

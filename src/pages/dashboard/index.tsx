@@ -2,7 +2,7 @@ import NewsCard from '@/features/news-card/news-card'
 import MainLayout from '@/layouts/main'
 import { TStore, wrapper } from '@/services/store'
 import { GetStaticPropsContext } from 'next'
-import { FC } from 'react'
+import { FC, ReactNode } from 'react'
 
 import dynamic from 'next/dynamic'
 
@@ -33,7 +33,7 @@ const Dashboard: FC<IDashboardProps> = () => {
 }
 
 // @ts-ignore
-Dashboard.getLayout = (page: typeof Dashboard) => <MainLayout>{page}</MainLayout>
+Dashboard.getLayout = (page: ReactNode) => <MainLayout>{page}</MainLayout>
 
 export const getStaticProps = wrapper.getStaticProps(
     (store: TStore) => async (ctx: GetStaticPropsContext) => {

@@ -79,7 +79,7 @@ export default function App({ Component, pageProps }) {
             }} />
           </div>
         }
-        <main className={`${font.className} min-h-screen flex flex-col bg-center bg-no-repeat bg-[url('/background.webp')] bg-cover`}>
+        <main className={`${font.className} min-h-screen flex flex-col bg-center bg-no-repeat bg-[url('/background.webp')] bg-cover pb-6`}>
           {getLayout(<Component {...pageProps} />)}
         </main>
       </NotifyProvider>

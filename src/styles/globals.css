@@ -11,7 +11,8 @@
     @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
   }
   .card {
-    @apply px-8 py-8 backdrop-blur-3xl bg-white rounded-3xl;
+    @apply px-8 py-8 backdrop-blur-[70px] rounded-3xl;
+    background: rgba(255, 255, 255, 0.8);
   }
   .card__header {
     @apply text-2xl font-bold text-gray-900 dark:text-white;
@@ -55,10 +56,21 @@
   .badge-pink {
     @apply badge bg-pink-100 text-pink-600 dark:bg-pink-900 dark:text-pink-300;
   }
+  .checkbox {
+    @apply w-4 h-4 rounded border-[0.5px] border-gray-300 bg-gray-50 cursor-pointer;
+  }
 }
 
 .bg-shadow {
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+}
+
+
+input[type=number] {
+  padding: 0!important;
+  border: none!important;
+  font-size: inherit!important;
+  background: inherit!important;
 }
 
 /* :root {
