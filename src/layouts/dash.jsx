@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { useLogoutMutation, useMeQuery } from "../services/auth/api";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const DashLayout = ({ children }) => {
   const { data: session } = useMeQuery()
   const router = useRouter()
-  
+
   //const [logout, { isSuccess, isError }] = useLogoutMutation()
 
   const logout = () => {
@@ -47,7 +48,7 @@ const DashLayout = ({ children }) => {
                     <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white  " role="menuitem">
                       Подтвердите аккаунт</a>
                     <div className="h-full px-2 absolute flex items-center right-0">
-                      <span class="flex w-2 h-2 bg-green-500 rounded-full animate-ping "></span>
+                      <span className="flex w-2 h-2 bg-green-500 rounded-full animate-ping "></span>
                     </div>
                   </li>
                   <li onClick={logout}>
@@ -78,6 +79,14 @@ const DashLayout = ({ children }) => {
             </a>
           </li>
 
+          <li>
+            <Link href="/content/news" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+              <svg aria-hidden="true" className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+              <span className="flex-1 ml-3 whitespace-nowrap">Новости</span>
+              <span className="inline-flex items-center justify-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300">New</span>
+            </Link>
+          </li>
+
           <li onClick={logout} >
             <a href="#" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
               <svg aria-hidden="true" className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z" clip-rule="evenodd"></path></svg>
@@ -90,7 +99,7 @@ const DashLayout = ({ children }) => {
 
     <div className="p-4 sm:ml-64">
       <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
-       {children}
+        {children}
       </div>
     </div>
 

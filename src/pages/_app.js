@@ -1,10 +1,11 @@
+/* eslint-disable react/display-name */
 import "@/styles/globals.css";
 import { NotifyProvider } from '@/services/notification/zustand';
 // import store from "@/services/store"
 import { Provider as StoreProvider } from "react-redux"
 import Script from "next/script";
 
-import { Montserrat } from "next/font/google";
+import { Mulish } from "next/font/google";
 import { useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
 // import Guard from '../services/auth/guard'
@@ -15,9 +16,7 @@ import { PostHogProvider } from "posthog-js/react"
 import { wrapper } from "@/services/store";
 import { useProgressBar } from "../hooks/use-progress-bar";
 
-import { configureAbly } from "@ably-labs/react-hooks";
-
-const font = Montserrat({
+const font = Mulish({
   subsets: ["latin", 'cyrillic']
 })
 
@@ -34,8 +33,6 @@ if (typeof window !== 'undefined') {
 }
 
 const transitionSpeed = 600;
-configureAbly({ authUrl: "http://localhost:3000/api/chat/auth" });
-
 
 export default function App({ Component, pageProps }) {
   const { store } = wrapper.useWrappedStore(pageProps);
@@ -72,16 +69,17 @@ export default function App({ Component, pageProps }) {
   }, [Component])
 
   return <StoreProvider store={store}>
-    <Script strategy="beforeInteractive" src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></Script>
     <PostHogProvider client={posthog}>
       <NotifyProvider>
-        {width > 0 && <div className="w-full absolute top-0 bg-gray-200 h-1 dark:bg-gray-700">
-          <div className="bg-blue-600 h-1" style={{
-            width: `${width}%`,
-            transition: `width ${width > 1 ? transitionSpeed : 0}`
-          }}></div>
-        </div>}
-        <main className={`${font.className}`}>
+        {width > 0 &&
+          <div className="w-full absolute top-0 bg-gray-200 h-1 dark:bg-gray-700">
+            <div className="bg-blue-600 h-1" style={{
+              width: `${width}%`,
+              transition: `width ${width > 1 ? transitionSpeed : 0}`
+            }} />
+          </div>
+        }
+        <main className={`${font.className} min-h-screen flex flex-col bg-center bg-no-repeat bg-[url('/background.webp')] bg-cover`}>
           {getLayout(<Component {...pageProps} />)}
         </main>
       </NotifyProvider>

@@ -1,3 +1,4 @@
+import { ESortDirections } from "@/services/content/api";
 import { STRAPI_PROXY } from "./paths"
 
 export const toStatic = (suffix: string): string => {
@@ -24,3 +25,11 @@ export const transliterate = (text: string) => text
     .join("")
     .toLowerCase().replace(/[^a-zа-яё\s-]/g, "")
     .replace(/\s+/g, "-")
+
+export const changeSortDirection = (sortDirection: ESortDirections): ESortDirections =>
+    sortDirection === ESortDirections.ASC ? ESortDirections.DESC : ESortDirections.ASC
+
+export const getArticleIdFromPath = (path: string): number => {
+    const splittedPath = path.split('-')
+    return Number(splittedPath[splittedPath.length - 1])
+}

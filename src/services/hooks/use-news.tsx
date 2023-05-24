@@ -1,37 +1,22 @@
-import { EParams, ESortDirections, INews, TNewsData, TNewsRequest, useGetNewsQuery } from "../content/api"
-import { useNotify } from "../notification/zustand"
+import { ESortParams, ESortDirections, INews, TNewsData, TContentRequest, useGetNewsQuery } from "../content/api"
 
-export const initialNewsParams = {
+export const initialContentParams = {
     offset: 0,
     limit: 20,
     searchQuery: '',
-    param: EParams.CREATED_AT,
+    param: ESortParams.CREATED_AT,
     sortDirection: ESortDirections.DESC,
 }
 
 const SEC_60 = 60 * 1000
 
-interface IParams { interval?: number, newsParams?: TNewsRequest }
-export const useNews = (params: IParams) => {
-    const [notify] = useNotify();
-
-    const { data: newsData } = useGetNewsQuery(params?.newsParams ?? initialNewsParams, {
+interface IParams { interval?: number, newsParams?: TContentRequest }
+export const useNews = (params: IParams): [TNewsData, boolean] => {
+    const { data: newsData, isLoading } = useGetNewsQuery(params?.newsParams ?? initialContentParams, {
         pollingInterval: params?.interval || SEC_60
     })
 
-    if (isTNewsData(newsData)) {
-        return [newsData]
-    } else {
-        notify({
-            delay: 5 * SEC_60,
-            type: 'danger',
-            content: () =>
-                <div className="text-red-500">
-                    Произошла ошибка на сервере.
-                    Попробуйте перезагрузить страницу немного позднее.
-                </div>
-        })
-    }
+    return [newsData, isLoading]
 }
 
 export function isTNewsData(obj: TNewsData): obj is TNewsData {

@@ -4,6 +4,14 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+    ],
+  },
   async rewrites () {
     // if (process.env.NODE_ENV === "production") {
     //   return []
@@ -16,6 +24,10 @@ const nextConfig = {
     {
       source: "/-auth-/:slug*",
       destination: "https://mycareer.fun/-auth-/:slug*",
+    },
+    {
+      source: "/:slug*",
+      destination: "https://mycareer.fun/:slug*",
     },
     {
       source: "/-strapi-proxy-/:slug*",

@@ -39,7 +39,7 @@ const Register = () => {
       return
     }
     const credentials = {
-      email: e.email,
+      email: e.email.toLowerCase(),
       password: e.password
     };
 
@@ -115,7 +115,7 @@ const Register = () => {
                 </p>
               )}
             </div>
-           
+
               <button
                 type="submit"
                 className="button w-fit"
@@ -128,10 +128,10 @@ const Register = () => {
                   <span className="link">Войти</span>
                 </Link>
               </div>
-           
+
           </form>
         </FormProvider>
-    
+
     </div>
   );
 };

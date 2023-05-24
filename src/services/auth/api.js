@@ -23,8 +23,8 @@ const loggedOut = () => {
 
 const mutex = new Mutex();
 
-const baseQuery = fetchBaseQuery({
-  baseUrl: "/-auth-",
+export const secureQueryBuilder = (baseUrl) => fetchBaseQuery({
+  baseUrl,
   prepareHeaders: (headers, { getState, endpoint }) => {
     const { accessToken, refreshToken } = useCredentialsStore.getState()
     if (endpoint === "refresh" && refreshToken) {
@@ -36,9 +36,11 @@ const baseQuery = fetchBaseQuery({
     }
     return headers;
   },
-});
+})
 
-const baseQueryWithReauth = async (args, api, extraOptions) => {
+const baseQuery = secureQueryBuilder("/-auth-");
+
+export const baseQueryWithReauth = async (args, api, extraOptions) => {
   await mutex.waitForUnlock();
   let result = await baseQuery(args, api, extraOptions);
   if (result.error && result.error.status === 401) {
@@ -88,7 +90,7 @@ export const api = createApi({
           const token = await queryFulfilled;
           persistToken(token.data);
           dispatch(api.util.invalidateTags([{ type: "User" }]));
-        } catch {}
+        } catch { }
       },
     }),
     signup: builder.mutation({
@@ -102,7 +104,7 @@ export const api = createApi({
           loggedOut();
           dispatch(api.util.invalidateTags([{ type: "User" }]));
           dispatch(api.util.invalidateTags([{ type: "Stats" }]));
-        } catch {}
+        } catch { }
       },
     }),
     approve: builder.mutation({
