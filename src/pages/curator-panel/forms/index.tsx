@@ -4,9 +4,9 @@ import MainLayout from '@/layouts/main'
 import { useRouter } from 'next/router'
 import { FC, ReactNode } from 'react'
 
-interface ICuratorPanelProps { }
+interface IFormsProps { }
 
-const CuratorPanel: FC<ICuratorPanelProps> = () => {
+const Forms: FC<IFormsProps> = () => {
     const [useProfiles] = useGetAllProfiles()
     const router = useRouter()
 
@@ -51,6 +51,6 @@ const CuratorPanel: FC<ICuratorPanelProps> = () => {
 }
 
 // @ts-ignore
-CuratorPanel.getLayout = (page: ReactNode) => <MainLayout>{page}</MainLayout>
+Forms.getLayout = (page: ReactNode) => <MainLayout>{page}</MainLayout>
 
-export default CuratorPanel
+export default Forms

@@ -24,7 +24,7 @@ const Form: FC<IFormProps> = ({ profileId }) => {
     }, [allProfiles, profileId])
 
     const paths = [
-        { title: 'Анкеты', url: '/curator-panel' },
+        { title: 'Анкеты', url: '/curator-panel/forms' },
         { title: `Анкета #${profileId}` },
     ]
 

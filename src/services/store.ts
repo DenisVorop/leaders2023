@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { contentApi } from './content/api';
 import { api as activityApi } from "./activity/api"
 import { profileApi } from './profile/api';
+import { testCasesApi } from './test-cases/api';
 
 
 const combinedReducer = combineReducers({
@@ -13,6 +14,7 @@ const combinedReducer = combineReducers({
   [contentApi.reducerPath]: contentApi.reducer,
   [activityApi.reducerPath]: activityApi.reducer,
   [profileApi.reducerPath]: profileApi.reducer,
+  [testCasesApi.reducerPath]: testCasesApi.reducer,
 });
 
 
@@ -38,6 +40,7 @@ export const store = configureStore({
     contentApi.middleware,
     activityApi.middleware,
     profileApi.middleware,
+    testCasesApi.middleware,
   ]),
 })
 

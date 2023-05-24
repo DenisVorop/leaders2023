@@ -1,7 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { HYDRATE } from "next-redux-wrapper"
 import { secureQueryBuilder } from "../auth/api";
-import { PORTS } from "@/utils/paths";
+import { BASE_URL, PORTS } from "@/utils/paths";
 
 // import { IExperienceData } from './experience-step'
 import { IPersonalData } from "@/features/personal-form/steps/personal-data-step";
@@ -16,7 +16,7 @@ export type TCreateProfileRequest = (Omit<IPersonalData, 'dateOfBirth'> & { date
     & (Omit<IEducationData, 'yearGraduation'> & { year_graduation: string })
     & { source?: string, contact?: string, text?: string }
 
-const baseQuery = secureQueryBuilder(`${PORTS.profile_port}/profile/`);
+const baseQuery = secureQueryBuilder(`${BASE_URL}${PORTS.profile_port}/profile/`);
 
 export const profileApi = createApi({
     reducerPath: "profileApi",

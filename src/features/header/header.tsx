@@ -76,6 +76,11 @@ const Header: FC<IHeaderProps> = () => {
                                     Новости
                                 </Link>
                             </li>
+                            <li>
+                                <a href="https://talent.mos.ru/internships/" className={navLinkClass}>
+                                    Карьерная школа
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
