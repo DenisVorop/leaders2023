@@ -28,7 +28,7 @@ export type TTestCase = {
 
 export type TTestCaseRequest = TTestCase & { questions: TQuestionRequest[] }
 
-const baseQuery = secureQueryBuilder(`${BASE_URL}/${PORTS.actions_port}/test-cases/`);
+const baseQuery = secureQueryBuilder(`${BASE_URL}${PORTS.actions_port}/test-cases/`);
 
 export const testCasesApi = createApi({
     reducerPath: "testCasesApi",
