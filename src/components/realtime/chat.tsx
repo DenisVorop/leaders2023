@@ -318,7 +318,7 @@ const Chat: FC = () => {
           </motion.div>}
         </AnimatePresence>
         <button onClick={() => void setIsOpen(!isOpen)} type="button" className="button rounded-2xl flex items-center justify-center text-white w-14 h-14 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800">
-          <svg aria-hidden="true" className="w-6 h-6 transition-transform group-hover:rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+          <svg aria-hidden="true" className="w-6 h-6 transition-transform group-hover:rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
           <span className="sr-only">Open actions menu</span>
         </button>
       </div>
@@ -400,7 +400,7 @@ const Message: FC<TMessageProps> = ({ text, deleted, logoUrl, reactions, onRemov
           {/* <Wow className="w-4 h-4 fill-yellow-200 hover:animate-bounce hover:cursor-pointer"/> */}
           {/* <Angry className="w-4 h-4 fill-red-400 hover:animate-bounce hover:cursor-pointer"/> */}
         </div>
-        
+
         {!deleted && onRemove && <div className="flex items-start justify-end">
           <Badge onClick={onRemove} className="text-[8px] w-fit hover:cursor-pointer hover:bg-red-200 focue " color='red'>удалить</Badge>
         </div>

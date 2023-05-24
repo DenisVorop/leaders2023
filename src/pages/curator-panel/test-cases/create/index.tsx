@@ -5,6 +5,7 @@ import { Dispatch, FC, ReactNode, SetStateAction, memo, useCallback, useEffect, 
 import { useForm } from 'react-hook-form'
 import Back from '@/components/back/back'
 import { useNotify } from '@/services/notification/zustand'
+import { useRouter } from 'next/router'
 
 const initialCaseTestInfo = {
     title: 'Тестирование для кандидатов',
@@ -19,6 +20,7 @@ const inititalTestCase: TTestCaseRequest = { ...initialCaseTestInfo, questions: 
 interface ICreateTestCasesProps { }
 
 const CreateTestCases: FC<ICreateTestCasesProps> = () => {
+    const router = useRouter()
     const [testCase, setTestCase] = useState(inititalTestCase)
     const [createTestCase, { isSuccess, isError }] = useCreateTestCaseMutation()
     const { register, handleSubmit, getValues } = useForm<TInitialTestCase>({ defaultValues: initialCaseTestInfo })
@@ -27,21 +29,20 @@ const CreateTestCases: FC<ICreateTestCasesProps> = () => {
         sessionStorage.clear()
     }, [])
 
-    const handleUpdateTestCase = useCallback((data: TInitialTestCase) => {
-        setTestCase(prev => ({ ...prev, ...data }))
-    }, [])
-
-    useErrorProcessing(isSuccess, 'success', 'Тест-кейс успешно создан!')
+    useErrorProcessing(isSuccess, 'success', 'Тест-кейс успешно создан!', () => {
+        setTestCase(inititalTestCase)
+        router.push('/curator-panel/test-cases')
+    })
     useErrorProcessing(isError, 'danger')
 
     const minScore = useMemo(() => {
-        const percent = getValues().min_score / 100
+        const percent = +getValues().min_score / 100
         const fullScore = testCase.questions.reduce((acc, cur) => {
-            return acc + cur.score
+            return acc + +cur.score
         }, 0)
         return fullScore * percent
     }, [getValues, testCase])
-    console.log({ ...testCase, min_score: minScore })
+
     return (
         <div>
             <div className='custom-container'>
@@ -50,7 +51,7 @@ const CreateTestCases: FC<ICreateTestCasesProps> = () => {
                         <div className='flex justify-between'>
                             <Back link="/curator-panel/test-cases" label="К тест кейсам" />
                             <button
-                                onClick={() => createTestCase({ ...testCase, min_score: minScore })}
+                                onClick={handleSubmit((data) => createTestCase({ ...testCase, ...data, min_score: minScore }))}
                                 className='button'
                             >
                                 Cохранить тест кейс
@@ -59,12 +60,10 @@ const CreateTestCases: FC<ICreateTestCasesProps> = () => {
                         <div className='flex flex-col gap-5'>
                             <div className='flex flex-col gap-3'>
                                 <input
-                                    onBlur={handleSubmit(handleUpdateTestCase)}
                                     className='input text-xl font-bold text-gray-900 bg-white'
                                     {...register('title', { required: true })}
                                 />
                                 <textarea
-                                    onBlur={handleSubmit(handleUpdateTestCase)}
                                     className='textarea text-base text-gray-900 h-[96px] bg-white'
                                     {...register('description', { required: true })}
                                 />

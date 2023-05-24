@@ -9,7 +9,7 @@ import { useGetAllProfiles } from '@/hooks/get-all-profiles'
 import MainLayout from '@/layouts/main'
 import { wrapper, TStore } from '@/services/store'
 import { GetStaticPropsContext } from 'next'
-import { FC, useMemo } from 'react'
+import { FC, useMemo, ReactNode } from 'react'
 
 interface IFormProps {
     profileId: number
@@ -55,7 +55,7 @@ const Form: FC<IFormProps> = ({ profileId }) => {
 }
 
 // @ts-ignore
-Form.getLayout = (page: typeof Form) => <MainLayout>{page}</MainLayout>
+Form.getLayout = (page: ReactNode) => <MainLayout>{page}</MainLayout>
 
 export const getStaticProps = wrapper.getStaticProps(
     (store: TStore) => async (ctx: GetStaticPropsContext) => {

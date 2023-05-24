@@ -24,11 +24,15 @@ export type TTestCase = {
     description: string,
     min_score: number,
     questions: TQuestion[],
+    id: number
 }
 
-export type TTestCaseRequest = TTestCase & { questions: TQuestionRequest[] }
+export type TTestCaseRequest = Omit<TTestCase, 'id'> & { questions: TQuestionRequest[] }
+export interface ISoloTestCase extends Omit<TTestCase, 'questions'> { id: number, questions_count: number }
+export interface IOneOfTestCases extends ISoloTestCase { total_score: number }
 
-const baseQuery = secureQueryBuilder(`${BASE_URL}${PORTS.actions_port}/test-cases/`);
+// const baseQuery = secureQueryBuilder(`${BASE_URL}${PORTS.actions_port}/test-cases/`);
+const baseQuery = secureQueryBuilder(`https://mycareer.fun${PORTS.actions_port}/test-cases`);
 
 export const testCasesApi = createApi({
     reducerPath: "testCasesApi",
@@ -40,6 +44,15 @@ export const testCasesApi = createApi({
         }
     },
     endpoints: (builder) => ({
+        getAllTestCases: builder.query<IOneOfTestCases[], null>({
+            query: () => {
+                return {
+                    url: `/`,
+                    method: "GET",
+                }
+            },
+            providesTags: ["TestCase"],
+        }),
         createTestCase: builder.mutation<TTestCase, TTestCaseRequest>({
             query: (body) => {
                 return {
@@ -50,9 +63,29 @@ export const testCasesApi = createApi({
             },
             invalidatesTags: () => ["TestCase"],
         }),
+        getTestCase: builder.query<TTestCase, number>({
+            query: (testCaseId) => {
+                return {
+                    url: `/${testCaseId}`,
+                    method: "GET",
+                }
+            },
+        }),
+        deleteTestCase: builder.mutation<unknown, number>({
+            query: (testCaseId) => {
+                return {
+                    url: `/${testCaseId}`,
+                    method: "DELETE",
+                }
+            },
+            invalidatesTags: () => ["TestCase"],
+        }),
     })
 })
 
 export const {
+    useGetAllTestCasesQuery,
     useCreateTestCaseMutation,
+    useGetTestCaseQuery,
+    useDeleteTestCaseMutation,
 } = testCasesApi

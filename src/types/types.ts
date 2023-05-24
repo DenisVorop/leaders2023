@@ -18,3 +18,6 @@ export type TExperience = (IExperienceData & { experience_id: number })
 export type TMetaPagination = { total: number, page: number, size: number, pages: number }
 export interface IAllProfiles extends TMetaPagination { items: TUserProfile[] }
 export interface IAllExperiences extends TMetaPagination { items: (TExperience & { email: string })[] }
+
+
+export type TBreadcrumbs = { title: string, url?: string }[]

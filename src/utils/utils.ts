@@ -33,3 +33,7 @@ export const getArticleIdFromPath = (path: string): number => {
     const splittedPath = path.split('-')
     return Number(splittedPath[splittedPath.length - 1])
 }
+
+export const toTestCase = (testCaseId: number) => {
+    return `/curator-panel/test-cases/${testCaseId}`
+}

@@ -54,8 +54,8 @@ const makeStore = () => store
 
 setupListeners(store.dispatch)
 
-const config = { debug: process.env.NODE_ENV !== 'production' }
-// const config = {}
+// const config = { debug: process.env.NODE_ENV !== 'production' }
+const config = {}
 
 // export default store
 export const wrapper = createWrapper(makeStore, config)
