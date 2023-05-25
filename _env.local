@@ -1,0 +1,13 @@
+NEXT_PUBLIC_POSTHOG_KEY="phc_4SoYrhfQQnPTqOghLKUIxvozA9crkbmCE6y1qeB5CXX"
+NEXT_PUBLIC_POSTHOG_HOST="https://eu.posthog.com"
+
+NODE_POSTHOG_KEY="phx_srkFsiLkCPjTrgcZ35WufqZFiKAvplSNfPBAKCsEV7k"
+NODE_POSTHOG_HOST="https://eu.posthog.com"
+NODE_POSTHOG_PROJECT_ID=5040
+
+
+ABLY_API_KEY=qcPo2A.rYoxpQ:lumW3RIRNgQHyE3UahoX8I21y67m18APaJWFcogmUxs
+NEXT_ABLY_API_KEY=qcPo2A.rYoxpQ:lumW3RIRNgQHyE3UahoX8I21y67m18APaJWFcogmUxs
+
+API_HOST_DEV="http://localhost:3000"
+API_HOST_PROD="https://mycareer.fun"
