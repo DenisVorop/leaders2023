@@ -13,7 +13,7 @@ const initialCaseTestInfo = {
     min_score: 20
 }
 type TInitialTestCase = typeof initialCaseTestInfo
-type TInitialQuestion = Omit<TQuestionRequest, 'answers'>
+export type TInitialQuestion = Omit<TQuestionRequest, 'answers'>
 
 const inititalTestCase: TTestCaseRequest = { ...initialCaseTestInfo, questions: [] }
 

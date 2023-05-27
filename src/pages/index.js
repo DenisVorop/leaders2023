@@ -8,7 +8,7 @@ export default function Home() {
 
   useEffect(() => {
     if (!!session && isSuccess) {
-        router.push('/dash')
+        router.push('/dashboard')
     }
   }, [isSuccess, session])
 

@@ -21,7 +21,7 @@ const TestCase: FC<ITestCaseProps> = ({ testCaseId, paths }) => {
 
     useEffect(() => {
         if (isError) {
-            // router.back()
+            router.back()
         }
     }, [isError, router])
 
