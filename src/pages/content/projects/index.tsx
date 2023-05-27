@@ -1,14 +1,18 @@
-import Card from '@/components/cards/card'
 import SearchInput from '@/components/inputs/search-input'
+import DragNDrop from '@/features/drag-n-drop/drag-n-drop'
+import Popup from '@/features/popup/popup'
 import ProjectCard from '@/features/project-card/project-card'
+import ResponseProject from '@/features/response-project/response-project'
 import MainLayout from '@/layouts/main'
-import { ESortDirections, ESortParams, TContentRequest, contentApi, useGetProjectsQuery } from '@/services/content/api'
+import { useGetRespondedProjectsQuery } from '@/services/content/actions-api'
+import { ESortDirections, ESortParams, TContentRequest, TProject, contentApi, useGetProjectsQuery } from '@/services/content/api'
 import { initialContentParams, useNews } from '@/services/hooks/use-news'
 import { TStore, wrapper } from '@/services/store'
-import { changeSortDirection } from '@/utils/utils'
+import { changeSortDirection, toProject } from '@/utils/utils'
 import { Dropdown } from 'flowbite-react'
 import { GetStaticPropsContext } from 'next'
-import { FC, useCallback, useState } from 'react'
+import Link from 'next/link'
+import { FC, ReactNode, useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 const quickFilters = [
@@ -42,8 +46,13 @@ const Projects: FC<INewsProps> = ({
     initialContentParams,
 }) => {
     const [projectParams, setNewsParams] = useState(initialContentParams)
-    const { data } = useGetProjectsQuery(projectParams)
+    const { data: projectsData } = useGetProjectsQuery(projectParams)
+    const { data: respondedData } = useGetRespondedProjectsQuery(null)
+
+    const [respondedProjectsIdx] = respondedData || []
+
     const { register, getValues } = useForm()
+    const [selectedProject, setSelectedProject] = useState<TProject | null>(null)
 
     const handleSearch = useCallback(() => {
         setNewsParams(prev => ({ ...prev, searchQuery: getValues('searchQuery') }))
@@ -57,6 +66,8 @@ const Projects: FC<INewsProps> = ({
             return { ...prev, param: sortParam }
         })
     }, [])
+
+    const [open, setOpen] = useState(false)
 
     return (
         <div>
@@ -102,16 +113,37 @@ const Projects: FC<INewsProps> = ({
                             </div>
                         </div>
                         <div className='grid grid-cols-2 gap-5'>
-                            {data.projects.map((project) => {
+                            {projectsData?.projects?.map((project) => {
                                 return (
-                                    <ProjectCard
+                                    <Link
                                         key={project.id}
-                                        {...project}
-                                    />
+                                        href={toProject(project.tag)}
+                                    >
+                                        <ProjectCard
+                                            onClick={(project) => {
+                                                setSelectedProject(project)
+                                                setOpen(true)
+                                            }}
+                                            isResponded={respondedProjectsIdx?.includes(project.id)}
+                                            {...project}
+                                        />
+                                    </Link>
                                 )
                             })}
                         </div>
                     </div>
+                    <Popup
+                        isVisible={open}
+                        onClose={() => setOpen(false)}
+                        className='mt-[-10%]'
+                    >
+                        <div className='flex flex-col gap-5 max-w-[496px]'>
+                            <ResponseProject
+                                project={selectedProject}
+                                onClose={() => setOpen(false)}
+                            />
+                        </div>
+                    </Popup>
                 </div>
             </div>
         </div>
@@ -119,7 +151,7 @@ const Projects: FC<INewsProps> = ({
 }
 
 // @ts-ignore
-Projects.getLayout = page => <MainLayout>{page}</MainLayout>
+Projects.getLayout = (page: ReactNode) => <MainLayout>{page}</MainLayout>
 
 export const getStaticProps = wrapper.getStaticProps(
     (store: TStore) => async (ctx: GetStaticPropsContext) => {

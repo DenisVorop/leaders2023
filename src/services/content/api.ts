@@ -43,6 +43,7 @@ export type TProject = {
     tag: string
     categories: string[]
     tasks: string[]
+    img: string[] | string
 }
 export type TProjectsData = { total: number, projects: TProject[] }
 
@@ -127,8 +128,8 @@ export const contentApi = createApi({
                     total: response.meta.pagination.total,
                     projects: response.data.reduce((acc, cur) => {
                         const { id, attributes } = cur
-                        const categories = attributes.tags.data.map(item => item.attributes.name)
-                        const tasks = attributes.test_task.data.map(item => item.attributes.url)
+                        const categories = attributes?.tags?.data?.map(item => item?.attributes?.name) || []
+                        const tasks = attributes?.test_task?.data?.map(item => item?.attributes?.url) || []
                         acc.push({
                             ...omit(attributes, ['text', 'img', 'tags', 'test_task', 'full_text']),
                             id,
@@ -137,36 +138,40 @@ export const contentApi = createApi({
                             tasks,
                         })
                         return acc
-                    }, [] as INews[])
+                    }, [] as TProject[]),
                 }
             }
         }),
-        // getNewsArticle: builder.query<INewsArticle, { id: number }>({
-        //     query: ({ id }) => {
-        //         return {
-        //             url: `/news/${id}?populate=*`,
-        //             method: "GET",
-        //         }
-        //     },
-        //     providesTags: ["News"],
-        //     transformResponse: (response: TNewsResponse<TNewsArticleData>) => {
-        //         const { id, attributes } = response.data
-        //         const imgArray = attributes.img.data.map(item => item.attributes.url)
-        //         const categories = attributes.tags.data.map(item => item.attributes.name)
-        //         return {
-        //             id,
-        //             ...omit(attributes, 'tags'),
-        //             img: imgArray.length > 1 ? imgArray : imgArray.join(''),
-        //             tag: `${transliterate(attributes.name)}-${id}`,
-        //             categories,
-        //         }
-        //     }
-        // }),
+        getProjectArticle: builder.query<TProject, { id: number }>({
+            query: ({ id }) => {
+                return {
+                    url: `/projects/${id}?populate=*`,
+                    method: "GET",
+                }
+            },
+            providesTags: ["Projects"],
+            transformResponse: (response: any) => {
+                const { id, attributes } = response?.data || {}
+                const imgArray = attributes?.img?.data?.map(item => item?.attributes?.url)
+                const categories = attributes?.tags?.data?.map(item => item?.attributes?.name) || []
+                const tasks = attributes?.test_task?.data?.map(item => item?.attributes?.url) || []
+                return {
+                    id,
+                    ...omit(attributes, 'tags', 'test_task'),
+                    img: imgArray.length > 1 ? imgArray : imgArray.join(''),
+                    tag: `${transliterate(attributes.name)}-${id}`,
+                    categories,
+                    tasks,
+                } as TProject
+            }
+        }),
     })
 })
 
 export const {
     useGetNewsQuery,
     useGetNewsArticleQuery,
+
     useGetProjectsQuery,
+    useGetProjectArticleQuery,
 } = contentApi

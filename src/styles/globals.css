@@ -18,7 +18,7 @@
     @apply text-2xl font-bold text-gray-900 dark:text-white;
   }
   .button {
-    @apply w-full px-5 py-[10px] text-sm font-medium text-center text-white bg-purple-600 rounded-lg hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 sm:w-auto dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800;
+    @apply w-full px-5 py-[10px] text-sm font-medium text-center text-white bg-purple-600 rounded-lg hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 sm:w-auto dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800 disabled:bg-gray-400;
   }
   .link {
     @apply text-blue-600 hover:underline dark:text-blue-500;
@@ -57,7 +57,7 @@
     @apply badge bg-pink-100 text-pink-600 dark:bg-pink-900 dark:text-pink-300;
   }
   .checkbox {
-    @apply w-4 h-4 rounded border-[0.5px] border-gray-300 bg-gray-50 cursor-pointer;
+    @apply w-4 h-4 rounded border-[0.5px] border-gray-300 bg-gray-50 cursor-pointer text-purple-600;
   }
 }
 

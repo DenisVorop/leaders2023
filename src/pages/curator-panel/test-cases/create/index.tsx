@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 import Back from '@/components/back/back'
 import { useNotify } from '@/services/notification/zustand'
 import { useRouter } from 'next/router'
+import CuratorHeader from '@/features/header/curator-header'
 
 const initialCaseTestInfo = {
     title: 'Тестирование для кандидатов',
@@ -248,6 +249,6 @@ const CreateAnswer: FC<{ setAnswers: Dispatch<SetStateAction<TAnswerRequest[]>> 
 }
 
 // @ts-ignore
-CreateTestCases.getLayout = (page: ReactNode) => <MainLayout>{page}</MainLayout>
+CreateTestCases.getLayout = (page: ReactNode) => <MainLayout header={<CuratorHeader />}>{page}</MainLayout>
 
 export default CreateTestCases

@@ -2,7 +2,7 @@ import { ESortDirections } from "@/services/content/api";
 import { STRAPI_PROXY } from "./paths"
 
 export const toStatic = (suffix: string): string => {
-    if (suffix.includes('upload')) {
+    if (suffix?.includes('upload')) {
         return `/${STRAPI_PROXY}${suffix}`
     }
 
@@ -36,4 +36,13 @@ export const getArticleIdFromPath = (path: string): number => {
 
 export const toTestCase = (testCaseId: number) => {
     return `/curator-panel/test-cases/${testCaseId}`
+}
+
+export const toProject = (projectTag: string) => {
+    return `/content/projects/${projectTag}`
+}
+
+export const openLinkInNewWindow = (url: string) => {
+    const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+    if (newWindow) newWindow.opener = null
 }

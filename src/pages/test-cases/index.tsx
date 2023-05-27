@@ -1,61 +1,62 @@
 import MainLayout from '@/layouts/main'
-import { TAnswer, TQuestion, TQuestionRequest, TTestCaseRequest, useGetTestCaseQuery } from '@/services/test-cases/api'
+import { TAnswer, TQuestion, TQuestionRequest, TTestCaseRequest, useGetTestCaseQuery, useSendTestCaseMutation } from '@/services/test-cases/api'
 import Back from '@/components/back/back';
-import React, { ReactNode, FC, memo, useState } from 'react';
+import React, { ReactNode, FC, memo, useState, useMemo, useCallback, useEffect } from 'react';
+import Spinner from '@/components/spinner/spinner';
+import { useSessionStorage } from '@/hooks/use-session-storage';
+import { useErrorProcessing } from '@/hooks/use-error-processing';
+import { useRouter } from 'next/router';
 
 // Типы данных
-type Test = {
-    id: number;
-    text: string;
-    score: number;
-    questions: {
-        id: number;
-        text: string;
-        answers: {
-            id: number;
-            text: string;
-        }[];
-    }[];
-};
-
-type UserAnswer = {
+export type UserAnswer = {
     question_id: number;
     answer_id: number[];
-}[];
+};
+
 
 // Компонент вопроса
 const QuestionItem: React.FC<{
-    question: Test['questions'][number];
+    question: TQuestion;
     isSelected: boolean;
     number: number;
     isFirst: boolean;
     isLast: boolean;
+    isAnswered: boolean;
     onQuestionSelect: (questionId: number) => void;
-}> = ({ question, isSelected, onQuestionSelect, number, isFirst, isLast }) => {
-    const handleClick = () => {
-        onQuestionSelect(question.id);
-    };
+}> = ({
+    question,
+    isSelected,
+    onQuestionSelect,
+    number,
+    isFirst,
+    isLast,
+    isAnswered,
+}) => {
+        const handleClick = () => {
+            onQuestionSelect(question.id);
+        };
 
-    return (
-        <li
-            onClick={handleClick}
-            className={`
+        return (
+            <li
+                onClick={handleClick}
+                className={`
                     px-3 py-[6px] border-[1px] border-gray-200 border-solid cursor-pointer
                     ${isSelected ? 'bg-purple-50' : 'bg-white'}
                     ${isFirst ? 'rounded-l-lg' : ''}
                     ${isLast ? 'rounded-r-lg' : ''}
+                    ${isAnswered ? 'text-purple-600' : ''}
                 `}
-        >
-            {number}
-        </li>
-    );
-};
+            >
+                {number}
+            </li>
+        );
+    };
 
 
 
 // Компонент ответа
 const AnswerItem: React.FC<{
-    answer: Test['questions'][number]['answers'][number];
+    answer: TAnswer;
     isSelected: boolean;
     onAnswerSelect: (answerId: number) => void;
 }> = ({ answer, isSelected, onAnswerSelect }) => {
@@ -64,20 +65,15 @@ const AnswerItem: React.FC<{
     };
 
     return (
-        <>
-            {/* <li onClick={handleClick} style={{ fontWeight: isSelected ? 'bold' : 'normal' }}>
-                {answer.text}
-            </li> */}
-            <label className='flex items-center gap-2 w-fit'>
-                <input
-                    type='checkbox'
-                    className='checkbox'
-                    onChange={handleClick}
-                    checked={isSelected}
-                />
-                <span>{answer.text}</span>
-            </label>
-        </>
+        <label className='flex items-center gap-2 w-fit'>
+            <input
+                type='checkbox'
+                className='checkbox'
+                onChange={handleClick}
+                checked={isSelected}
+            />
+            <span>{answer.text}</span>
+        </label>
     );
 };
 
@@ -95,7 +91,7 @@ const QuestionNumber: FC<{
         isAnswered,
         number,
     }) => {
-        3
+
         return (
             <div
                 className={`
@@ -114,112 +110,125 @@ QuestionNumber.displayName = 'QuestionNumber'
 
 // Компонент страницы теста
 const TestCases: React.FC = () => {
-    const [selectedQuestion, setSelectedQuestion] = useState<number | null>(null);
-    const [userAnswers, setUserAnswers] = useState<UserAnswer>([]);
+    const router = useRouter()
+    const { data: testCase } = useGetTestCaseQuery(5)
+    const [isStarted, setIsStarted] = useSessionStorage('isStarted', false)
+    const [sendTestCase, { isSuccess, isError }] = useSendTestCaseMutation()
 
-    const test: Test = {
-        id: 1,
-        text: 'Тестовый тест',
-        score: 10,
-        questions: [
-            {
-                id: 1,
-                text: 'Вопрос 1',
-                answers: [
-                    { id: 1, text: 'Ответ 1.1' },
-                    { id: 2, text: 'Ответ 1.2' },
-                ],
-            },
-            {
-                id: 2,
-                text: 'Вопрос 2',
-                answers: [
-                    { id: 3, text: 'Ответ 2.1' },
-                    { id: 4, text: 'Ответ 2.2' },
-                ],
-            },
-        ],
-    };
+    useErrorProcessing(isSuccess, 'success', 'Тестирование завершено', () => {
+        router.push('/dashboard')
+    })
+    useErrorProcessing(isError, 'danger')
+
+    const handleSendTestCase = useCallback((userAnswers: UserAnswer[]) => {
+        const bool = confirm('Вы уверены, что хотите закончить тестирование?')
+
+        if (!bool) return
+
+        sendTestCase({
+            testCaseId: testCase?.id,
+            userAnswers
+        });
+    }, [sendTestCase, testCase?.id])
+
+    useEffect(() => () => {
+        sessionStorage.clear()
+    }, [])
+
+    const [selectedQuestionId, setSelectedQuestionId] = useState<number | null>(null);
+
+    useEffect(() => {
+        setSelectedQuestionId(testCase?.questions?.[0]?.id)
+    }, [testCase?.questions])
+
+    const [userAnswers, setUserAnswers] = useState<UserAnswer[]>([]);
 
     const handleQuestionSelect = (questionId: number) => {
-        setSelectedQuestion(questionId);
+        setSelectedQuestionId(questionId);
     };
 
-    const handleAnswerSelect = (answerId: number) => {
-        if (!selectedQuestion) return;
+    const handleAnswerSelect = useCallback((answerId: number) => {
+        if (!selectedQuestionId) return;
 
-        const existingAnswer = userAnswers.find((answer) => answer.question_id === selectedQuestion);
+        const existingAnswer = userAnswers.find((answer) => answer.question_id === selectedQuestionId);
         if (existingAnswer) {
             const updatedAnswers = existingAnswer.answer_id.includes(answerId)
                 ? existingAnswer.answer_id.filter((id) => id !== answerId)
                 : [...existingAnswer.answer_id, answerId];
             setUserAnswers((prevAnswers) =>
                 prevAnswers.map((answer) =>
-                    answer.question_id === selectedQuestion ? { ...answer, answer_id: updatedAnswers } : answer
+                    answer.question_id === selectedQuestionId ? { ...answer, answer_id: updatedAnswers } : answer
                 )
             );
         } else {
-            setUserAnswers((prevAnswers) => [...prevAnswers, { question_id: selectedQuestion, answer_id: [answerId] }]);
+            setUserAnswers((prevAnswers) => [...prevAnswers, { question_id: selectedQuestionId, answer_id: [answerId] }]);
         }
-    };
+    }, [selectedQuestionId, userAnswers]);
+
+    const selectedQuestion = useMemo(() => testCase?.questions?.find((question) => question?.id === selectedQuestionId), [selectedQuestionId, testCase?.questions])
+
+    if (!testCase) return <Spinner />
 
     return (
         <div>
-
-
-
             <div>
                 <div className='custom-container'>
                     <div className='card flex flex-col gap-6'>
                         <div className='flex flex-col gap-4'>
-                            <Back />
-                            <div className='flex flex-col gap-2'>
-                                <span className=' text-xl font-bold'>{test.text}</span>
-                                <p>{'DESCRIPTION'}</p>
+                            <div className='flex justify-between items-center'>
+                                <Back />
+                                <span
+                                    className='text-purple-500 cursor-pointer hover:text-purple-700'
+                                    onClick={() => handleSendTestCase(userAnswers)}
+                                >
+                                    Завершить тестирование
+                                </span>
                             </div>
+                            <span className=' text-xl font-bold'>{testCase.title}</span>
                         </div>
-                        <ul className='flex flex-wrap'>
-                            {test.questions.map((question, index, arr) => (
-                                <QuestionItem
-                                    key={question.id}
-                                    question={question}
-                                    isSelected={question.id === selectedQuestion}
-                                    onQuestionSelect={handleQuestionSelect}
-                                    number={index + 1}
-                                    isFirst={!index}
-                                    isLast={arr.length - 1 === index}
-                                />
-                            ))}
-                        </ul>
-                        <span className=' font-medium'>Вопрос {'number'}. {test.questions.find((question) => question.id === selectedQuestion)?.text}</span>
-                        <ul className='flex flex-col gap-2'>
-                            {test.questions
-                                .find((question) => question.id === selectedQuestion)
-                                ?.answers.map((answer) => (
-                                    <AnswerItem
-                                        key={answer.id}
-                                        answer={answer}
-                                        isSelected={userAnswers.some(
-                                            (userAnswer) =>
-                                                userAnswer.question_id === selectedQuestion && userAnswer.answer_id.includes(answer.id)
-                                        )}
-                                        onAnswerSelect={handleAnswerSelect}
-                                    />
-                                ))}
-                        </ul>
+                        {isStarted
+                            ? <>
+                                <ul className='flex flex-wrap'>
+                                    {testCase.questions.map((question, index, arr) => {
+                                        return (
+                                            <QuestionItem
+                                                key={question.id}
+                                                question={question}
+                                                isSelected={question.id === selectedQuestionId}
+                                                onQuestionSelect={handleQuestionSelect}
+                                                number={index + 1}
+                                                isFirst={!index}
+                                                isLast={arr.length - 1 === index}
+                                                isAnswered={userAnswers.some((userAnswer) => userAnswer.question_id === question.id && userAnswer.answer_id.length)}
+                                            />
+                                        )
+                                    })}
+                                </ul>
+                                <span className=' font-medium'>Вопрос: {selectedQuestion?.text}</span>
+                                <ul className='flex flex-col gap-2'>
+                                    {selectedQuestion?.answers.map((answer) => (
+                                        <AnswerItem
+                                            key={answer.id}
+                                            answer={answer}
+                                            isSelected={userAnswers.some((userAnswer) => userAnswer.question_id === selectedQuestionId && userAnswer.answer_id.includes(answer.id))}
+                                            onAnswerSelect={handleAnswerSelect}
+                                        />
+                                    ))}
+                                </ul>
+                            </>
+                            : <div className='flex flex-col gap-5'>
+                                <p>{testCase.description}</p>
+                                <button
+                                    className='button w-fit'
+                                    onClick={() => setIsStarted(true)}
+                                >
+                                    Начать
+                                </button>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
-
-
-            <h2>Выбранные ответы</h2>
-            <ul>
-                {userAnswers.map((answer, index) => (
-                    <li key={index}>
-                        Вопрос {answer.question_id}: Ответы [{answer.answer_id.join(', ')}]
-                    </li>
-                ))}
-            </ul>
         </div>
     );
 };

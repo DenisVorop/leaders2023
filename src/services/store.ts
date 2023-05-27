@@ -7,6 +7,7 @@ import { contentApi } from './content/api';
 import { api as activityApi } from "./activity/api"
 import { profileApi } from './profile/api';
 import { testCasesApi } from './test-cases/api';
+import { contentActionsApi } from './content/actions-api';
 
 
 const combinedReducer = combineReducers({
@@ -15,6 +16,7 @@ const combinedReducer = combineReducers({
   [activityApi.reducerPath]: activityApi.reducer,
   [profileApi.reducerPath]: profileApi.reducer,
   [testCasesApi.reducerPath]: testCasesApi.reducer,
+  [contentActionsApi.reducerPath]: contentActionsApi.reducer,
 });
 
 
@@ -41,6 +43,7 @@ export const store = configureStore({
     activityApi.middleware,
     profileApi.middleware,
     testCasesApi.middleware,
+    contentActionsApi.middleware,
   ]),
 })
 

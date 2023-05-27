@@ -1,4 +1,5 @@
 import Spinner from '@/components/spinner/spinner'
+import CuratorHeader from '@/features/header/curator-header'
 import { useErrorProcessing } from '@/hooks/use-error-processing'
 import useHover from '@/hooks/use-hover'
 import MainLayout from '@/layouts/main'
@@ -102,6 +103,6 @@ const TestCase: FC<ITestCaseProps> = memo(({
 TestCase.displayName = 'TestCase'
 
 // @ts-ignore
-TestCases.getLayout = (page: ReactNode) => <MainLayout>{page}</MainLayout>
+TestCases.getLayout = (page: ReactNode) => <MainLayout header={<CuratorHeader />}>{page}</MainLayout>
 
 export default TestCases
