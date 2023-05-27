@@ -59,7 +59,7 @@ export const testCasesApi = createApi({
                 return {
                     url: `/`,
                     method: "POST",
-                    body,
+                    body: { ...body, type: 'multiple' },
                 }
             },
             invalidatesTags: () => ["TestCase"],
