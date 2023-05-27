@@ -175,12 +175,12 @@ const Chat: FC = () => {
   const [precense, updateStatus] = usePresence(curChannel, { topic: curTopic, status: EStatus.init }, (update: any) => { });
 
   const precenseCount = useMemo(() => {
-    return precense.filter(p => p.action === "present").length
+    return precense.filter(p => p.action === "present")?.length
   }, [precense])
 
   const sendMessage = (e: React.FormEvent) => {
     e.preventDefault()
-    if (draft.length === 0) return
+    if (draft?.length === 0) return
     channel.publish(curTopic, {
       username: user.author,
       logoUrl: user.logo,

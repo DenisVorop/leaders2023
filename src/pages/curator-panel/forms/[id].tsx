@@ -1,6 +1,7 @@
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs'
 import Divider from '@/components/divider/divider'
 import Spinner from '@/components/spinner/spinner'
+import CuratorHeader from '@/features/header/curator-header'
 import Documents from '@/features/profile/documents'
 import Education from '@/features/profile/education'
 import Experience from '@/features/profile/experience'
@@ -55,7 +56,7 @@ const Form: FC<IFormProps> = ({ profileId }) => {
 }
 
 // @ts-ignore
-Form.getLayout = (page: ReactNode) => <MainLayout>{page}</MainLayout>
+Form.getLayout = (page: ReactNode) => <MainLayout header={<CuratorHeader />}>{page}</MainLayout>
 
 export const getStaticProps = wrapper.getStaticProps(
     (store: TStore) => async (ctx: GetStaticPropsContext) => {

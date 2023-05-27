@@ -2,22 +2,23 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { HYDRATE } from "next-redux-wrapper"
 import { secureQueryBuilder } from "../auth/api";
 import { BASE_URL, PORTS } from "@/utils/paths";
+import { UserAnswer } from "@/pages/test-cases";
 
 export type TAnswer = {
     text: string,
     is_correct: boolean,
-    test_cases_question_id: number,
+    id: number,
 }
 
 export type TQuestion = {
     text: string,
     answers: TAnswer[],
-    test_case_id: number,
+    id: number,
     score: number,
 }
 
-export type TAnswerRequest = Omit<TAnswer, 'test_cases_question_id'>
-export type TQuestionRequest = Omit<Omit<TQuestion, 'test_case_id'>, 'answers'> & { answers: TAnswerRequest[] }
+export type TAnswerRequest = Omit<TAnswer, 'id'>
+export type TQuestionRequest = Omit<Omit<TQuestion, 'id'>, 'answers'> & { answers: TAnswerRequest[] }
 
 export type TTestCase = {
     title: string,
@@ -58,7 +59,7 @@ export const testCasesApi = createApi({
                 return {
                     url: `/`,
                     method: "POST",
-                    body,
+                    body: { ...body, type: 'multiple' },
                 }
             },
             invalidatesTags: () => ["TestCase"],
@@ -80,6 +81,15 @@ export const testCasesApi = createApi({
             },
             invalidatesTags: () => ["TestCase"],
         }),
+        sendTestCase: builder.mutation<unknown, { userAnswers: UserAnswer[], testCaseId: number }>({
+            query: ({ testCaseId, userAnswers }) => {
+                return {
+                    url: `${testCaseId}/response`,
+                    method: 'POST',
+                    body: userAnswers
+                }
+            },
+        })
     })
 })
 
@@ -88,4 +98,5 @@ export const {
     useCreateTestCaseMutation,
     useGetTestCaseQuery,
     useDeleteTestCaseMutation,
+    useSendTestCaseMutation,
 } = testCasesApi

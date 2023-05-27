@@ -1,4 +1,5 @@
 
+import CuratorHeader from '@/features/header/curator-header'
 import { useGetAllProfiles } from '@/hooks/get-all-profiles'
 import MainLayout from '@/layouts/main'
 import { useRouter } from 'next/router'
@@ -51,6 +52,6 @@ const Forms: FC<IFormsProps> = () => {
 }
 
 // @ts-ignore
-Forms.getLayout = (page: ReactNode) => <MainLayout>{page}</MainLayout>
+Forms.getLayout = (page: ReactNode) => <MainLayout header={<CuratorHeader />}>{page}</MainLayout>
 
 export default Forms

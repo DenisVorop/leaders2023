@@ -66,7 +66,7 @@ const EducationStep: FC<IEducationStepProps> = ({ setStep }) => {
                     </div>
                 </div>
             </div>
-            {Object.keys(errors).length
+            {Object.keys(errors)?.length
                 ? <div className="flex items-center gap-1">{Object.values(errors).map(error => <span key={error.type}>{error.message}</span>)}</div>
                 : null
             }

@@ -1,5 +1,6 @@
 import Breadcrumbs from '@/components/breadcrumbs/breadcrumbs'
 import Spinner from '@/components/spinner/spinner'
+import CuratorHeader from '@/features/header/curator-header'
 import MainLayout from '@/layouts/main'
 import { wrapper, TStore } from '@/services/store'
 import { useGetTestCaseQuery } from '@/services/test-cases/api'
@@ -17,11 +18,10 @@ interface ITestCaseProps {
 const TestCase: FC<ITestCaseProps> = ({ testCaseId, paths }) => {
     const router = useRouter()
     const { data: testCase, isLoading, isError } = useGetTestCaseQuery(testCaseId)
-    console.log(testCase)
 
     useEffect(() => {
         if (isError) {
-            // router.back()
+            router.back()
         }
     }, [isError, router])
 
@@ -44,10 +44,10 @@ const TestCase: FC<ITestCaseProps> = ({ testCaseId, paths }) => {
                         <Breadcrumbs paths={paths} />
                         <div className='flex flex-col gap-5'>
                             <div className='flex flex-col gap-3'>
-                                <span className='text-xl font-bold text-gray-900 bg-white'>
+                                <span className='text-xl font-bold text-gray-900 bg-white rounded-lg px-2 py-1'>
                                     {testCase?.title}
                                 </span>
-                                <span className='text-base text-gray-900 h-[96px] bg-white'>
+                                <span className='text-base text-gray-900 h-[96px] bg-white rounded-lg px-2 py-1'>
                                     {testCase?.description}
                                 </span>
                             </div>
@@ -64,14 +64,16 @@ const TestCase: FC<ITestCaseProps> = ({ testCaseId, paths }) => {
                                     <div className='flex flex-col gap-3'>
                                         {question?.answers?.map((answer, index) => {
                                             return (
-                                                <div key={index} className='flex items-center gap-3 w-fit cursor-pointer'>
+                                                <label htmlFor={`checkbox-${index}`} key={index} className='flex items-center gap-3 w-fit cursor-pointer'>
                                                     <input
                                                         type='checkbox'
+                                                        id={`checkbox-${index}`}
                                                         checked={answer?.is_correct}
+                                                        onChange={() => { }}
                                                         className='checkbox'
                                                     />
-                                                    <span>{answer?.text}</span>
-                                                </div>
+                                                    {answer?.text}
+                                                </label>
                                             )
                                         })}
                                     </div>
@@ -86,7 +88,7 @@ const TestCase: FC<ITestCaseProps> = ({ testCaseId, paths }) => {
 }
 
 // @ts-ignore
-TestCase.getLayout = (page: ReactNode) => <MainLayout>{page}</MainLayout>
+TestCase.getLayout = (page: ReactNode) => <MainLayout header={<CuratorHeader />}>{page}</MainLayout>
 
 export const getStaticProps = wrapper.getStaticProps(
     (store: TStore) => async (ctx: GetStaticPropsContext) => {

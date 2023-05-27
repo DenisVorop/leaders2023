@@ -24,13 +24,14 @@ const Card: React.FC<ICardProps> = ({
     return (
         <div className="flex flex-col max-w-sm bg-white border border-gray-200 rounded-lg overflow-hidden shadow dark:bg-gray-800 dark:border-gray-700">
             {!isArrayOfStrings(img) && img &&
-                <div className='w-[382px] h-[254px] relative'>
+                <div className='h-[260px] relative'>
                     <a href={link}>
                         <Image
                             src={toStatic(img)}
                             alt={title}
                             fill
                             style={{ objectFit: 'cover' }}
+                            unoptimized
                         />
                     </a>
                 </div>

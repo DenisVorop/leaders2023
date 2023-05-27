@@ -43,7 +43,7 @@ const Login = () => {
                     <div className="text-green-500">success</div>
                 ),
             });
-            router.push("/dash/");
+            router.push("/dashboard/");
         }
     }, [isSuccess]);
 
