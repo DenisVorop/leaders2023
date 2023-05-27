@@ -16,8 +16,19 @@ import { PostHogProvider } from "posthog-js/react"
 import { wrapper } from "@/services/store";
 import { useProgressBar } from "../hooks/use-progress-bar";
 
+import { configureAbly } from "@ably-labs/react-hooks";
+import { useCredentialsStore } from "@/services/auth/persister";
+
 const font = Mulish({
   subsets: ["latin", 'cyrillic']
+})
+
+configureAbly({
+  authUrl: "/api/realtime/auth",
+  autoConnect: true,
+  authHeaders: {
+    "X-Ably-Validate": typeof window === 'undefined' ? "" : useCredentialsStore.getState()?.accessToken
+  }
 })
 
 
@@ -55,6 +66,8 @@ export default function App({ Component, pageProps }) {
       router.events.off("routeChangeError", reset)
     }
   }, [router])
+
+
 
   const getLayout = useMemo(() => {
     const getter = Component.getLayout ?? ((page) => page)

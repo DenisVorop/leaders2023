@@ -12,6 +12,7 @@ class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <link rel="preload" href="/background.webp" as="image" />
+          <link rel="manifest" href="/manifest.json" />
           <Script strategy="beforeInteractive" src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></Script>
         </Head>
         <body>

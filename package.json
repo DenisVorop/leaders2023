@@ -4,8 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "push": "node ./src/services/notification/webpush/daemon.mjs",
+    "dev-with-push": "concurrently \"next dev\" \"node ./src/services/notification/webpush/daemon.mjs\"",
     "build": "next build",
-    "start": "next start",
+    "start": "next start && node ./src/services/notification/webpush/daemon.ts",
     "lint": "next lint"
   },
   "dependencies": {
@@ -14,6 +16,7 @@
     "ably": "^1.2.39",
     "async-mutex": "^0.4.0",
     "autoprefixer": "10.4.14",
+    "dotenv": "^16.0.3",
     "eslint": "8.39.0",
     "eslint-config-next": "13.3.4",
     "flowbite": "^1.6.5",
@@ -22,7 +25,10 @@
     "jsonwebtoken": "^9.0.0",
     "keen-slider": "^6.8.5",
     "lodash": "^4.17.21",
+    "mongodb": "^5.5.0",
+    "mongoose": "^7.2.1",
     "next": "13.3.4",
+    "next-pwa": "^5.6.0",
     "next-redux-wrapper": "^8.1.0",
     "postcss": "8.4.23",
     "posthog-js": "^1.56.0",
@@ -33,6 +39,7 @@
     "react-redux": "^8.0.5",
     "socket.io": "^4.6.1",
     "tailwindcss": "3.3.2",
+    "web-push": "^3.6.1",
     "zustand": "^4.3.8"
   },
   "devDependencies": {
@@ -42,6 +49,7 @@
     "@tailwindcss/typography": "^0.5.9",
     "@types/lodash": "^4.14.194",
     "@types/node": "20.1.0",
-    "@types/react": "18.2.6"
+    "@types/react": "18.2.6",
+    "concurrently": "^8.0.1"
   }
 }

@@ -22,7 +22,7 @@ const Slider: FC<ISliderProps> = ({
 }) => {
     const [sliderRef, instanceRef] = useKeenSlider(options, plugins)
 
-    if (slides.length === 0) return <></>
+    if (slides?.length === 0) return <></>
 
     return (
         <div ref={sliderRef} className="keen-slider min-w-full max-w-full">

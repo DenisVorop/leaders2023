@@ -9,6 +9,7 @@ export enum ERealtimeRole {
 
 export enum EChannel {
     global = "global_chat",
+    notification = "notification"
 }
 
 export enum ETopic {

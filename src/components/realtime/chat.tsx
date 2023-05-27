@@ -2,54 +2,13 @@ import { useChannel, usePresence } from '@ably-labs/react-hooks'
 
 import { useState, useEffect, useMemo, useReducer, FC, createContext, useContext, useRef, ReactElement } from 'react'
 import { useMeQuery } from '../../services/auth/api'
-import { configureAbly } from "@ably-labs/react-hooks";
 import Image from 'next/image';
-import { useCredentialsStore } from '@/services/auth/persister';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Badge } from 'flowbite-react';
 
 import { EChannel, ERealtimeRole, EStatus, ETopic } from '@/types/integrations';
-
-
-
-/*
-петух овнер бетоная стена пупсечек
-эффективный
-десептикон
-
-   ADMIN = "admin"
-    CANDIDATE = "candidate"
-    INTERN = "intern"
-    HR_MANAGER = "hr_manager"
-    CURATOR = "curator"
-    MENTOR = "mentor"
-
-
-      <button type="button" className="card shadow-2xl rounded-2xl inline-flex itemx-center justify-center button relative w-[56px] h-[56px] text-gray-500 bg-white border border-gray-200 hover:text-gray-900 dark:border-gray-600  dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400">
-                <div className="text-lg font-bold items-center justify-center"><UserCheck /></div>
-                <span className="absolute card py-1 px-2 block mb-px text-sm font-medium -translate-y-1/2 -left-28 top-1/2">Кандидаты</span>
-              </button>
-              <button type="button" className="card shadow-2xl rounded-2xl inline-flex itemx-center justify-center button relative w-[56px] h-[56px] text-gray-500 bg-white border border-gray-200 dark:border-gray-600 hover:text-gray-900  dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400">
-                <div className="text-lg font-bold items-center justify-center"><UserLike /></div>
-                <span className="absolute card py-1 px-2 block mb-px text-sm font-medium -translate-y-1/2 -left-28 top-1/2">Кураторы</span>
-              </button>
-              <button type="button" className="card shadow-2xl rounded-2xl inline-flex itemx-center justify-center button relative w-[56px] h-[56px] text-gray-500 bg-white border border-gray-200 hover:text-gray-900 dark:border-gray-600  dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400">
-                <div className="text-lg font-bold items-center justify-center"><UserAdmin /></div>
-                <span className="absolute card py-1 px-2 block mb-px text-sm font-medium -translate-y-1/2 -left-28 top-1/2">Руководство</span>
-              </button>
-
-*/
-
-
-
-configureAbly({
-  authUrl: "/api/realtime/auth",
-  autoConnect: true,
-  authHeaders: {
-    "X-Ably-Validate": typeof window === 'undefined' ? "" : useCredentialsStore.getState()?.accessToken
-  }
-})
-
+import Icons from "@/components/icons"
+import { formatTimeAgo } from '@/utils/utils';
 
 interface IRoom {
   title: ERealtimeRole | EChannel,
@@ -58,10 +17,10 @@ interface IRoom {
 
 const getChatRoomsByRole = (role?: string): IRoom[] => {
   return [
-    { title: EChannel.global, icon: <Wow className="w-16 h-16 fill-main" /> },
-    { title: ERealtimeRole.Candidate, icon: <UserCheck className="w-16 h-16 fill-main" /> },
-    { title: ERealtimeRole.Curator, icon: <UserAdmin className="w-16 h-16 fill-main" /> },
-    { title: ERealtimeRole.Mentor, icon: <UserLike className="w-16 h-16 fill-main" /> },
+    { title: EChannel.global, icon: <Icons.Group className="w-12 h-12 fill-purple-600" /> },
+    { title: ERealtimeRole.Candidate, icon: <Icons.UserCheck className="w-10 h-10 fill-purple-600 " /> },
+    { title: ERealtimeRole.Curator, icon: <Icons.UserAdmin className="w-10 h-10 fill-purple-600" /> },
+    { title: ERealtimeRole.Mentor, icon: <Icons.UserLike className="w-10 h-10 fill-purple-600" /> },
   ]
 }
 //
@@ -112,6 +71,13 @@ const Room: FC<{ channelName?: EChannel, topicName?: ETopic }> = ({ channelName 
   </>
 }
 
+const ChannelNameMapper = {
+  [ERealtimeRole.Candidate]: "Кандидаты",
+  [ERealtimeRole.Curator]: "Кураторы",
+  [ERealtimeRole.Mentor]: "Менторы",
+  [EChannel.global]: "Общий"
+
+}
 
 const Chat: FC = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -148,7 +114,7 @@ const Chat: FC = () => {
       case 'com.ably.reaction':
         return state.map((m: IMessage) => m.mid !== action.extras.ref.timeserial ? m : {
           ...m,
-          reactions: [+action.like + m.reactions[0] , +action.dislike + m.reactions[1]]
+          reactions: [+action.like + m.reactions[0], +action.dislike + m.reactions[1]]
         })
       case "com.ably.delete":
         return state.map((_m: IMessage) => {
@@ -309,16 +275,23 @@ const Chat: FC = () => {
           >
             <div className="flex absolute bottom-16 py-2 flex-col items-center space-y-2">
               {
-                availableRooms.map(({ icon, title }: IRoom) => <button  onClick={() => setCurChannel(title)} key={title} type="button" className="card shadow-2xl rounded-2xl inline-flex itemx-center justify-center button relative w-[56px] h-[56px] text-gray-500 bg-white border border-gray-200 hover:text-gray-900 dark:border-gray-600  dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400">
-                  <div className={`${curChannel === title ? "animate-bounce" : ""} text-lg font-bold items-center justify-center`}>{icon}</div>
-                  <span className="absolute card py-1 px-2 block mb-px text-sm font-medium -translate-y-1/2 -left-28 top-1/2">{title}</span>
+                availableRooms.map(({ icon, title }: IRoom) => <button onClick={() => setCurChannel(title)} key={title} type="button" className="card shadow-2xl rounded-2xl inline-flex itemx-center justify-center button relative w-[56px] h-[56px] text-gray-500 bg-white border border-gray-200 hover:text-gray-900 dark:border-gray-600  dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400">
+                  <div className={`${curChannel === title ? "animate-pulse" : ""} text-lg font-bold items-center justify-center`}>{icon}</div>
+                  <span className="absolute card py-1 px-2 block mb-px text-sm font-medium -translate-y-1/2 -left-28 top-1/2">{ChannelNameMapper?.[title] ?? "Общий"}</span>
                 </button>)
               }
             </div>
           </motion.div>}
         </AnimatePresence>
         <button onClick={() => void setIsOpen(!isOpen)} type="button" className="button rounded-2xl flex items-center justify-center text-white w-14 h-14 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800">
-          <svg aria-hidden="true" className="w-6 h-6 transition-transform group-hover:rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+         <div>
+          <svg viewBox="0 0 24 24" className="fill-white w-10 h-10 stoke-white">
+            <path d="M19.3259 5.77772L18.4944 6.33329V6.33329L19.3259 5.77772ZM19.3259 16.2223L18.4944 15.6667V15.6667L19.3259 16.2223ZM18.2223 17.3259L17.6667 16.4944H17.6667L18.2223 17.3259ZM14 17.9986L13.9956 16.9986C13.4451 17.001 13 17.4481 13 17.9986H14ZM14 18L14.8944 18.4472C14.9639 18.3084 15 18.1552 15 18H14ZM10 18H9C9 18.1552 9.03615 18.3084 9.10557 18.4472L10 18ZM10 17.9986H11C11 17.4481 10.5549 17.001 10.0044 16.9986L10 17.9986ZM5.77772 17.3259L6.33329 16.4944H6.33329L5.77772 17.3259ZM4.67412 16.2223L5.50559 15.6667L5.50559 15.6667L4.67412 16.2223ZM4.67412 5.77772L5.50559 6.33329L4.67412 5.77772ZM5.77772 4.67412L6.33329 5.50559L5.77772 4.67412ZM18.2223 4.67412L17.6667 5.50559L17.6667 5.50559L18.2223 4.67412ZM21 11C21 9.61635 21.0012 8.50334 20.9106 7.61264C20.8183 6.70523 20.6225 5.91829 20.1573 5.22215L18.4944 6.33329C18.7034 6.64604 18.8446 7.06578 18.9209 7.81505C18.9988 8.58104 19 9.57473 19 11H21ZM20.1573 16.7779C20.6225 16.0817 20.8183 15.2948 20.9106 14.3874C21.0012 13.4967 21 12.3836 21 11H19C19 12.4253 18.9988 13.419 18.9209 14.1849C18.8446 14.9342 18.7034 15.354 18.4944 15.6667L20.1573 16.7779ZM18.7779 18.1573C19.3238 17.7926 19.7926 17.3238 20.1573 16.7779L18.4944 15.6667C18.2755 15.9943 17.9943 16.2755 17.6667 16.4944L18.7779 18.1573ZM14.0044 18.9986C15.0785 18.9939 15.9763 18.9739 16.7267 18.8701C17.4931 18.7642 18.1699 18.5636 18.7779 18.1573L17.6667 16.4944C17.3934 16.6771 17.0378 16.8081 16.4528 16.889C15.8518 16.9721 15.0792 16.9939 13.9956 16.9986L14.0044 18.9986ZM15 18V17.9986H13V18H15ZM13.7889 20.6584L14.8944 18.4472L13.1056 17.5528L12 19.7639L13.7889 20.6584ZM10.2111 20.6584C10.9482 22.1325 13.0518 22.1325 13.7889 20.6584L12 19.7639L12 19.7639L10.2111 20.6584ZM9.10557 18.4472L10.2111 20.6584L12 19.7639L10.8944 17.5528L9.10557 18.4472ZM9 17.9986V18H11V17.9986H9ZM5.22215 18.1573C5.83014 18.5636 6.50685 18.7642 7.2733 18.8701C8.02368 18.9739 8.92154 18.9939 9.99564 18.9986L10.0044 16.9986C8.92075 16.9939 8.14815 16.9721 7.54716 16.889C6.96223 16.8081 6.60665 16.6771 6.33329 16.4944L5.22215 18.1573ZM3.84265 16.7779C4.20744 17.3238 4.6762 17.7926 5.22215 18.1573L6.33329 16.4944C6.00572 16.2755 5.72447 15.9943 5.50559 15.6667L3.84265 16.7779ZM3 11C3 12.3836 2.99879 13.4967 3.0894 14.3874C3.18171 15.2948 3.3775 16.0817 3.84265 16.7779L5.50559 15.6667C5.29662 15.354 5.15535 14.9342 5.07913 14.1849C5.00121 13.419 5 12.4253 5 11H3ZM3.84265 5.22215C3.3775 5.91829 3.18171 6.70523 3.0894 7.61264C2.99879 8.50334 3 9.61635 3 11H5C5 9.57473 5.00121 8.58104 5.07913 7.81505C5.15535 7.06578 5.29662 6.64604 5.50559 6.33329L3.84265 5.22215ZM5.22215 3.84265C4.6762 4.20744 4.20744 4.6762 3.84265 5.22215L5.50559 6.33329C5.72447 6.00572 6.00572 5.72447 6.33329 5.50559L5.22215 3.84265ZM11 3C9.61635 3 8.50334 2.99879 7.61264 3.0894C6.70523 3.18171 5.91829 3.3775 5.22215 3.84265L6.33329 5.50559C6.64604 5.29662 7.06578 5.15535 7.81505 5.07913C8.58104 5.00121 9.57473 5 11 5V3ZM13 3H11V5H13V3ZM18.7779 3.84265C18.0817 3.3775 17.2948 3.18171 16.3874 3.0894C15.4967 2.99879 14.3836 3 13 3V5C14.4253 5 15.419 5.00121 16.1849 5.07913C16.9342 5.15535 17.354 5.29662 17.6667 5.50559L18.7779 3.84265ZM20.1573 5.22215C19.7926 4.6762 19.3238 4.20744 18.7779 3.84265L17.6667 5.50559C17.9943 5.72447 18.2755 6.00572 18.4944 6.33329L20.1573 5.22215Z" fill="white" />
+            <circle cx="16" cy="11" r="1" fill="white" stroke="white" stroke-linecap="round" />
+            <circle cx="12" cy="11" r="1" fill="white" stroke="white" stroke-linecap="round" />
+            <circle cx="8" cy="11" r="1" fill="white" stroke="white" stroke-linecap="round" />
+          </svg>
+          </div>
           <span className="sr-only">Open actions menu</span>
         </button>
       </div>
@@ -383,18 +356,18 @@ const Message: FC<TMessageProps> = ({ text, deleted, logoUrl, reactions, onRemov
       <div className="relative card bg-white max-w-[w/2] rounded-xl p-2">
         {!deleted ? <p className="text-xs font-serif text-gray-800 break-all">{text}</p> : <div className="px-2 py-1 text-[10px] bg-red-100">сообщение было удалено</div>}
         <div className="absolute -bottom-1 -right-3 -space-x-1 flex items-center">
-          <Check />
-          <Check />
+          <Icons.Check />
+          <Icons.Check />
         </div>
       </div>
       <div className="inline-flex items-center justify-between">
         <div className="inline-flex items-center px-1 gap-2">
           <button onClick={() => !mine && onReact(true)} className="group flex items-center">
-            <Happy className="w-4 h-4 fill-green-200 group-hover:animate-bounce group-hover:cursor-pointer" />
+            <Icons.Happy className="w-4 h-4 fill-green-200 group-hover:animate-bounce group-hover:cursor-pointer" />
             <Badge color="green" className="group-hover:opacity-80">{reactions?.[0] ?? 0}</Badge>
           </button>
           <button onClick={() => !mine && onReact(false)} className='group flex items-center'>
-            <Sad className="w-4 h-4 fill-red-400 group-hover:animate-bounce group-hover:cursor-pointer" />
+            <Icons.Sad className="w-4 h-4 fill-red-400 group-hover:animate-bounce group-hover:cursor-pointer" />
             <Badge color="red" className="group-hover:opacity-80">{reactions?.[1] ?? 0}</Badge>
           </button>
           {/* <Wow className="w-4 h-4 fill-yellow-200 hover:animate-bounce hover:cursor-pointer"/> */}
@@ -411,86 +384,8 @@ const Message: FC<TMessageProps> = ({ text, deleted, logoUrl, reactions, onRemov
 
 }
 
-const Check = () => <svg viewBox="0 0 48 48" className="fill-green-500" width="8px" height="8px"><path d="M 42.960938 8.9804688 A 2.0002 2.0002 0 0 0 41.585938 9.5859375 L 17 34.171875 L 6.4140625 23.585938 A 2.0002 2.0002 0 1 0 3.5859375 26.414062 L 15.585938 38.414062 A 2.0002 2.0002 0 0 0 18.414062 38.414062 L 44.414062 12.414062 A 2.0002 2.0002 0 0 0 42.960938 8.9804688 z" /></svg>
-const UserAdmin = ({ className }) => <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M12.77 17.671L11.16 16.141L9.66 14.721L11.66 14.431L13.91 14.111L14.2 13.541C14.194 13.541 14.187 13.541 14.18 13.541C13.698 13.541 13.296 13.201 13.201 12.747C13.2 12.13 14 12.33 14.63 11.29C14.71 11.27 17.45 4 11.85 4C6.25 4 8.99 11.27 8.99 11.27C9.62 12.27 10.43 12.12 10.42 12.72C10.41 13.32 9.68 13.52 8.99 13.59C7.85 13.72 6.85 13.46 5.85 15.35C5.25 16.44 5 20 5 20H12.36V19.83L12.77 17.671Z" fill="#1C2E45" fill-opacity="0.6" />
-  <path d="M15.57 20.001H16.13L15.85 19.861L15.57 20.001Z" fill="#1C2E45" fill-opacity="0.6" />
-  <path d="M15.85 18.7309L18.32 20.0009L17.85 17.3109L19.85 15.4109L17.09 15.0209L15.85 12.5709L14.61 15.0209L11.85 15.4109L13.85 17.3109L13.38 20.0009L15.85 18.7309Z" fill="#1C2E45" fill-opacity="0.6" />
-</svg>
 
 
-const UserLike = ({ className }) => <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M18.1 20H18.7C18.7 20 18.7 19.8 18.7 19.4L18.1 20Z" fill="#1C2E45" fill-opacity="0.6" />
-  <path d="M12.5 17.9C11.8 17.2 11.5 16.1 11.7 15.1C11.9 14.1 12.5 13.3 13.4 13C13.4 12.9 13.3 12.8 13.3 12.8C13.3 12.2 14.1 12.4 14.7 11.3C14.7 11.3 17.4 4 11.8 4C6.3 4 9 11.3 9 11.3C9.6 12.3 10.4 12.1 10.4 12.8C10.4 13.5 9.7 13.5 9 13.6C7.9 13.7 6.9 13.5 5.9 15.3C5.3 16.4 5 20 5 20H14.6L12.5 17.9Z" fill="#1C2E45" fill-opacity="0.6" />
-  <path d="M18.8 14.1C18.6 14 18.3 14 18.1 14C17.4 14 16.8 14.6 16.4 15.1C16 14.6 15.4 14 14.7 14C14.4 14 14.2 14 14 14.1C12.8 14.5 12.6 16.1 13.5 17L16.5 19.9L19.5 17C20.3 16.1 20 14.5 18.8 14.1Z" fill="#1C2E45" fill-opacity="0.6" />
-</svg>
-
-const UserCheck = ({ className }) => <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M11.4 18.4C10.6 17.6 10.6 16.4 11.4 15.6C12.2 14.8 13.4 14.8 14.2 15.6L14.8 16.2L16.7 14.1C16 13.7 15.4 13.7 14.7 13.7C14 13.6 13.3 13.4 13.3 12.8C13.3 12.2 14.1 12.4 14.7 11.3C14.7 11.3 17.4 4 11.8 4C6.3 4 9 11.3 9 11.3C9.6 12.3 10.4 12.1 10.4 12.8C10.4 13.5 9.7 13.5 9 13.6C7.9 13.7 6.9 13.5 5.9 15.3C5.3 16.4 5 20 5 20H13L11.4 18.4Z" fill="#1C2E45" fill-opacity="0.6" />
-  <path d="M16.7 20H18.8C18.8 20 18.7 19.1 18.6 18L16.7 20Z" fill="#1C2E45" fill-opacity="0.6" />
-  <path d="M14.9 20C14.6 20 14.4 19.9 14.2 19.7L12.2 17.7C11.8 17.3 11.8 16.7 12.2 16.3C12.6 15.9 13.2 15.9 13.6 16.3L14.9 17.6L18.2 14C18.6 13.6 19.2 13.6 19.6 13.9C20 14.3 20 14.9 19.7 15.3L15.7 19.6C15.4 19.9 15.2 20 14.9 20Z" fill="#1C2E45" fill-opacity="0.6" />
-</svg>
-
-const Happy = ({ className }) => <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="12" cy="12" r="9.5" stroke="#222222" stroke-linecap="round" />
-  <path d="M8.20857 15.378C8.63044 15.7433 9.20751 16.0237 9.86133 16.2124C10.5191 16.4023 11.256 16.5 12 16.5C12.744 16.5 13.4809 16.4023 14.1387 16.2124C14.7925 16.0237 15.3696 15.7433 15.7914 15.378" stroke="#222222" stroke-linecap="round" />
-  <circle cx="9" cy="10" r="1" fill="#222222" stroke="#222222" stroke-linecap="round" />
-  <circle cx="15" cy="10" r="1" fill="#222222" stroke="#222222" stroke-linecap="round" />
-</svg>
-const Angry = ({ className }) => <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="12" cy="12" r="9.5" stroke="#222222" stroke-linecap="round" />
-  <path d="M8.20857 16.622C8.63044 16.2567 9.20751 15.9763 9.86133 15.7876C10.5191 15.5977 11.256 15.5 12 15.5C12.744 15.5 13.4809 15.5977 14.1387 15.7876C14.7925 15.9763 15.3696 16.2567 15.7914 16.622" stroke="#222222" stroke-linecap="round" />
-  <path d="M17 8L14 10" stroke="#222222" stroke-linecap="round" />
-  <path d="M7 8L10 10" stroke="#222222" stroke-linecap="round" />
-  <circle cx="8" cy="10" r="1" fill="#222222" />
-  <circle cx="16" cy="10" r="1" fill="#222222" />
-</svg>
-const Sad = ({ className }) => <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="12" cy="12" r="9.5" stroke="#222222" stroke-linecap="round" />
-  <path d="M8.20857 16.622C8.63044 16.2567 9.20751 15.9763 9.86133 15.7876C10.5191 15.5977 11.256 15.5 12 15.5C12.744 15.5 13.4809 15.5977 14.1387 15.7876C14.7925 15.9763 15.3696 16.2567 15.7914 16.622" stroke="#222222" stroke-linecap="round" />
-  <circle cx="9" cy="10" r="1" fill="#222222" stroke="#222222" stroke-linecap="round" />
-  <circle cx="15" cy="10" r="1" fill="#222222" stroke="#222222" stroke-linecap="round" />
-</svg>
-const Wow = ({ className }) => <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="12" cy="12" r="9.5" stroke="#222222" stroke-linecap="round" />
-  <circle cx="9" cy="9" r="1" fill="#222222" stroke="#222222" stroke-linecap="round" />
-  <circle cx="15" cy="9" r="1" fill="#222222" stroke="#222222" stroke-linecap="round" />
-  <path d="M15 15.5C15 16.8807 13.6569 18 12 18C10.3431 18 9 16.8807 9 15.5C9 14.1193 10.3431 13 12 13C13.6569 13 15 14.1193 15 15.5Z" fill="#222222" />
-</svg>
-
-
-
-
-function formatTimeAgo(timestamp: Date): string {
-  const now = new Date();
-  const diff = Math.abs(now.getTime() - timestamp.getTime());
-
-  const minute = 60 * 1000;
-  const hour = 60 * minute;
-  const day = 24 * hour;
-  const month = 30 * day;
-  const year = 365 * day;
-
-  if (diff < minute) {
-    const seconds = Math.round(diff / 1000);
-    return `${seconds} ${seconds === 1 ? 'секунду' : 'секунд'} назад`;
-  } else if (diff < hour) {
-    const minutes = Math.round(diff / minute);
-    return `${minutes} ${minutes === 1 ? 'минуту' : 'минуты'} назад`;
-  } else if (diff < day) {
-    const hours = Math.round(diff / hour);
-    return `${hours} ${hours === 1 ? 'час' : 'часа'} назад`;
-  } else if (diff < month) {
-    const days = Math.round(diff / day);
-    return `${days} ${days === 1 ? 'день' : 'дня'} назад`;
-  } else if (diff < year) {
-    const months = Math.round(diff / month);
-    return `${months} ${months === 1 ? 'месяц' : 'месяца'} назад`;
-  } else {
-    const years = Math.round(diff / year);
-    return `${years} ${years === 1 ? 'год' : 'года'} назад`;
-  }
-}
 
 
 

@@ -2,26 +2,31 @@ import NewsCard from '@/features/news-card/news-card'
 import MainLayout from '@/layouts/main'
 import { TStore, wrapper } from '@/services/store'
 import { GetStaticPropsContext } from 'next'
-import { FC, ReactNode } from 'react'
+import { FC, ReactNode, useEffect } from 'react'
 
 import dynamic from 'next/dynamic'
 
 const Chat = dynamic(() => import("@/components/realtime/chat"), { ssr: false })
 
+
 interface IDashboardProps {
 }
 
 const Dashboard: FC<IDashboardProps> = () => {
+
+
     return (
         <div>
             <div className="fixed bottom-0 z-50 right-0 mx-2 my-2">
-                <Chat/>
+
+                <Chat />
             </div>
             <div className='custom-container'>
                 <div className='grid grid-cols-6 gap-6'>
                     <div className=' col-span-2 flex flex-col gap-6'>
                         <div className='card'></div>
                         <NewsCard />
+                        
                     </div>
                     {/* <div className='col-span-4'>
                         <div className='card h-full'></div>

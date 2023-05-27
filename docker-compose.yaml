@@ -6,8 +6,30 @@ services:
       context: .
       dockerfile: ./Dockerfile
     environment: 
-      NODE_ENV: production
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://regelity:jklol13qwe@mongo_notification:27017/web_push
+    depends_on:
+      - mongo_notification
     command: bash -c "cd /app && ls && npm run start"
     restart: unless-stopped
     ports:
       - "127.0.0.1:3000:3000"
+    networks:
+      - next-app-network
+  mongo_notification:
+    image: mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=regelity
+      - MONGO_INITDB_ROOT_PASSWORD=jklol13qwe
+      - MONGO_INITDB_DATABASE=web_push
+    ports:
+      - '27017:27017'
+    volumes:
+      - './data:/data/db'
+    networks:
+      - next-app-network
+
+networks:
+  next-app-network:
+    driver: bridge
