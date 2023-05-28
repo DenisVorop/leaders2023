@@ -33,7 +33,7 @@ const notificationReducer = (
 
 
 const Notification: FC = () => {
-  const { data: session } = useMeQuery(undefined)
+  const { data: session, isLoading } = useMeQuery(undefined)
   const [sub, setSub] = useState(null)
   const [notify] = useNotify()
 
@@ -91,6 +91,10 @@ const Notification: FC = () => {
   const ref = useRef(null)
   const [open, setOpen] = useState(false)
   useOutsideAlerter([ref], () => setOpen(false))
+
+  if (isLoading || !session?.email) {
+    return null
+  }
 
   return (
     <div className="relative flex items-center gap-3 juftify-between px-3">

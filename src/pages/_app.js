@@ -3,8 +3,6 @@ import "@/styles/globals.css";
 import { NotifyProvider } from '@/services/notification/zustand';
 // import store from "@/services/store"
 import { Provider as StoreProvider } from "react-redux"
-import Script from "next/script";
-
 import { Mulish } from "next/font/google";
 import { useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
@@ -18,6 +16,7 @@ import { useProgressBar } from "../hooks/use-progress-bar";
 
 import { configureAbly } from "@ably-labs/react-hooks";
 import { useCredentialsStore } from "@/services/auth/persister";
+import Chat from "@/components/realtime/chat";
 
 const font = Mulish({
   subsets: ["latin", 'cyrillic']
@@ -92,6 +91,9 @@ export default function App({ Component, pageProps }) {
             }} />
           </div>
         }
+        <div className="fixed bottom-0 z-50 right-0 mx-2 my-2">
+          <Chat />
+        </div>
         <main className={`${font.className} min-h-screen flex flex-col bg-center bg-no-repeat bg-[url('/background.webp')] bg-cover pb-6`}>
           {getLayout(<Component {...pageProps} />)}
         </main>
