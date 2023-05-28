@@ -20,3 +20,6 @@ export enum EProfileStatuses {
     */
     DECLINED = 'declined',
 }
+export enum ETrends {
+    REFERRER = "referrer"
+}

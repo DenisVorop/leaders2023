@@ -2,7 +2,8 @@ import React, { FC, ReactNode } from 'react';
 import Chart from '@/components/charts/bar/bar';
 import MainLayout from '@/layouts/main';
 import CuratorHeader from '@/features/header/curator-header';
-
+import { useInsightsQuery } from '@/services/statistics/api';
+import { ETrends } from '@/types/enums';
 
 
 const dataNumberOfResponses = [
@@ -110,14 +111,75 @@ const Statistics: FC = () => {
     const popularUniversity = dataUniversity.find((el) => el.value === maxValue(dataUniversity))?.name;
     const popularCity = dataCity.find((el) => el.value === maxValue(dataCity))?.name;
 
-    // const stats = useStatistics(["referer"])
-    // console.log(stats)
+    const { referrersCount, referrersData } = useInsightsQuery({
+        query: {
+            filter_test_accounts: "true",
+            date_from: "-14d",
+            entity_type: "events",
+            events: JSON.stringify([{ "type": "events", "id": "$pageview", "order": 0, "math": "dau" }]),
+            breakdown_type: "event",
+            breakdown: "$referring_domain",
+            display: "ActionsPie"
+        }
+    }, {
+        selectFromResult: ({ data }: any) => {
+            console.log(data?.result, "kek")
+            const count = data?.result?.reduce((acc, el) => acc + (el?.aggregated_value ?? 0), 0)
+            return {
+                referrersCount: count ?? 0,
+                referrersData: data?.result?.map(el => ({name: el.breakdown_value === "$direct" ? "Прямые переходы" : el.breakdown_value, value: el.aggregated_value})) ?? []
+            }
+        }
+    })
+
+    const { dausCount, dausData } = useInsightsQuery({
+        query: {
+            filter_test_accounts: "true",
+            date_from: "-7d",
+            entity_type: "events",
+            events: JSON.stringify([{ "type": "events", "id": "$pageview", "order": 0, "math": "dau" }]),
+            interval: "day",
+            display: "ActionsBar"
+        }
+    }, {
+        selectFromResult: ({ data }: any) => {
+            const elem = data?.result?.[0]
+            return {
+                dausCount: elem?.count ?? 0,
+                dausData: elem?.data?.map((el, idx) => ({ name: elem?.data?.labels?.[idx], value: el})) ?? []
+            }
+        }
+    })
 
     return (
         <div>
             <div className='custom-container'>
                 <div className='card flex flex-col gap-6'>
                     <div className="flex flex-col items-start gap-6">
+                        <div className="font-bold text-20 leading-150 text-gray-900">Cтатистика посещений платформы</div>
+                        <div className="grid grid-cols-12 gap-5 w-full">
+                            <Chart
+                                data={referrersData}
+                                colors={colors}
+                                textArray={null}
+                                header={'Источники трафика'}
+                                description={'Показывает наиболее распространенные домены перехода для ваших пользователей за последние 14 дней.'}
+                                mainInfo={referrersCount}
+                                size={'small'}
+                                gridColumn={'span 3 / span 3'}
+                            />
+                            <Chart
+                                data={dausData}
+                                colors={colors}
+                                textArray={null}
+                                header={'Активность за день (последняя неделя)'}
+                                description={'Дневная активнотсь пользователей'}
+                                mainInfo={dausCount}
+                                size={'small'}
+                                gridColumn={'span 9 / span 9'}
+                                type={'bar'}
+                            />
+                        </div>
 
                         <div className="font-bold text-20 leading-150 text-gray-900">Cтатистика (заявки кандидатов)</div>
                         <div className="grid grid-cols-12 gap-5 w-full">
