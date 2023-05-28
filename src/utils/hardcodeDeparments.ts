@@ -1,10 +1,10 @@
-import DepartmentImage1 from '../../../public/departmens/department_1.webp'
-import DepartmentImage2 from '../../../public/departmens/department_2.webp'
-import DepartmentImage3 from '../../../public/departmens/department_3.webp'
-import DepartmentImage4 from '../../../public/departmens/department_4.webp'
-import DepartmentImage5 from '../../../public/departmens/department_5.webp'
-import DepartmentImage6 from '../../../public/departmens/department_6.webp'
-import DepartmentImage7 from '../../../public/departmens/department_7.webp'
+import DepartmentImage1 from '@/../public/departmens/department_1.webp'
+import DepartmentImage2 from '@/../public/departmens/department_2.webp'
+import DepartmentImage3 from '@/../public/departmens/department_3.webp'
+import DepartmentImage4 from '@/../public/departmens/department_4.webp'
+import DepartmentImage5 from '@/../public/departmens/department_5.webp'
+import DepartmentImage6 from '@/../public/departmens/department_6.webp'
+import DepartmentImage7 from '@/../public/departmens/department_7.webp'
 
 export const hardcodeDepartments = [
     {

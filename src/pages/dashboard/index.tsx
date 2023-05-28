@@ -6,7 +6,7 @@ import { FC, ReactNode, useEffect, useMemo, useState } from 'react'
 
 import dynamic from 'next/dynamic'
 import ProfileProgress from '@/features/profile-progress/profile-progress'
-import { hardcodeDepartments, hardcodeDepartmentsBadges } from './hardcodeDeparments'
+import { hardcodeDepartments, hardcodeDepartmentsBadges } from '../../utils/hardcodeDeparments'
 import Image, { StaticImageData } from 'next/image'
 
 const Chat = dynamic(() => import("@/components/realtime/chat"), { ssr: false })

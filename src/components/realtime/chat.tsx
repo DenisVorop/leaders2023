@@ -80,7 +80,7 @@ const ChannelNameMapper = {
 }
 
 const Chat: FC = () => {
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
     const [availableRooms, setAvailableRooms] = useState(() => getChatRoomsByRole())
     const [curChannel, setCurChannel] = useState<IRoom["title"]>(EChannel.global)
     const [curTopic, setCurTopic] = useState(ETopic.global)
@@ -230,7 +230,7 @@ const Chat: FC = () => {
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.5 }}
             >
-                <div className="relative card bg-gray-100 px-1 shadow-2xl ml-20 mr-4">
+                <div className="relative card max-w-[320px] bg-gray-100 px-1 shadow-2xl ml-20 mr-4">
                     <div className="card shadow top-0 px-5 absolute py-2 inset-x-0 z-50 rounded-b-none">
                         <div className='flex gap-2 items-center'>
                             <div className="relative self-start">
@@ -276,7 +276,7 @@ const Chat: FC = () => {
                             {
                                 availableRooms?.map(({ icon, title }: IRoom) => <button onClick={() => setCurChannel(title)} key={title} type="button" className="card shadow-2xl rounded-2xl inline-flex itemx-center justify-center button relative w-[56px] h-[56px] text-gray-500 bg-white border border-gray-200 hover:text-gray-900 dark:border-gray-600  dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400">
                                     <div className={`${curChannel === title ? "animate-pulse" : ""} text-lg font-bold items-center justify-center`}>{icon}</div>
-                                    <span className="absolute card py-1 px-2 block mb-px text-sm font-medium -translate-y-1/2 -left-28 top-1/2">{ChannelNameMapper?.[title] ?? "Общий"}</span>
+                                    <span className="absolute card shadow-2xl ring-1 ring-purple-600 text-purple-600 py-1 px-2 block mb-px text-sm font-medium -translate-y-1/2 -left-28 top-1/2">{ChannelNameMapper?.[title] ?? "Общий"}</span>
                                 </button>)
                             }
                         </div>
