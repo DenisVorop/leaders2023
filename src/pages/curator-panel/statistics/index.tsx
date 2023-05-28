@@ -4,6 +4,7 @@ import MainLayout from '@/layouts/main';
 import CuratorHeader from '@/features/header/curator-header';
 
 
+
 const dataNumberOfResponses = [
     { name: 'Релевантные отклики', value: 120 },
     { name: 'Нерелевантные отклики', value: 230 },
@@ -92,6 +93,7 @@ const dataApplicationsForInterns = [
 
 const colors = ['#6875F5', '#E74694', '#9061F9', '#31C48D', '#FACA15'];
 
+
 const Statistics: FC = () => {
     const sumOfResponses = dataNumberOfResponses.reduce((acc, cur) => acc + cur.value, 0);
     const sumOfApplications = dataApplicationsForInterns.reduce((acc, cur) => acc + cur.value, 0);
@@ -107,6 +109,9 @@ const Statistics: FC = () => {
     const popularEducation = dataEducation.find((el) => el.value === maxValue(dataEducation))?.name;
     const popularUniversity = dataUniversity.find((el) => el.value === maxValue(dataUniversity))?.name;
     const popularCity = dataCity.find((el) => el.value === maxValue(dataCity))?.name;
+
+    const stats = useStatistics(["referer"])
+    console.log(stats)
 
     return (
         <div>
@@ -220,6 +225,9 @@ const Statistics: FC = () => {
         </div>
     );
 }
+
+
+
 
 
 // @ts-ignore
