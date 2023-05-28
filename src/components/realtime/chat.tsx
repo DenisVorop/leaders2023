@@ -263,8 +263,7 @@ const Chat: FC = () => {
             </motion.div>
             }
         </AnimatePresence>
-        <div className="inline-flex card py-2 px-4 gap-3 items-center">
-
+        <div className="inline-flex card py-2 px-2 gap-3 items-center">
             <div className="relative group">
                 <AnimatePresence>
                     {isOpen && <motion.div

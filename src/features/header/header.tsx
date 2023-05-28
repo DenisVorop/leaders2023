@@ -1,5 +1,6 @@
 import Notification from '@/components/notification/notification'
 import { useMeQuery } from '@/services/auth/api'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FC, memo } from 'react'
@@ -19,12 +20,11 @@ const Header: FC<IHeaderProps> = () => {
         <header>
             <nav className="bg-white border-gray-200 dark:bg-gray-900">
                 <div className="custom-container flex flex-wrap items-center justify-between mx-auto p-4">
-                    <a href="https://flowbite.com/" className="flex items-center">
-                        <img src="https://flowbite.com/docs/images/logo.svg" className="h-8 mr-3" alt="Flowbite Logo" />
-                        <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
-                    </a>
+                    <Link href="/dashboard" className="flex items-center">
+                        <Image src="/logo.webp" alt='main' className="h-8 mr-3" width={67} height={32} />
+                    </Link>
                     <div className="flex items-center md:order-2">
-                        <Notification/>
+                        <Notification />
                         <button type="button" className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
                             <span className="sr-only">Open user menu</span>
                             <img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo" />

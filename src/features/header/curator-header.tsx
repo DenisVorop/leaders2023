@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FC, memo } from 'react'
@@ -16,10 +17,9 @@ const CuratorHeader: FC<ICuratorHeaderProps> = () => {
         <header>
             <nav className="bg-white border-gray-200 dark:bg-gray-900">
                 <div className="custom-container flex flex-wrap items-center justify-between mx-auto p-4">
-                    <a href="https://flowbite.com/" className="flex items-center">
-                        <img src="https://flowbite.com/docs/images/logo.svg" className="h-8 mr-3" alt="Flowbite Logo" />
-                        <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
-                    </a>
+                    <Link href="/curator-panel" className="flex items-center">
+                        <Image src="/logo.webp" alt='main' className="h-8 mr-3" width={67} height={32} />
+                    </Link>
                     <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
                         <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                             <li>
@@ -30,6 +30,11 @@ const CuratorHeader: FC<ICuratorHeaderProps> = () => {
                             <li>
                                 <Link href="/curator-panel/test-cases" className={navLinkClass}>
                                     Тесты
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/curator-panel/statistics" className={navLinkClass}>
+                                    Cтатистика
                                 </Link>
                             </li>
                             <li onClick={logout} className='hover:text-red-500 cursor-pointer'>

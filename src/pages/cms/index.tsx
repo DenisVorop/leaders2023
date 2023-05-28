@@ -6,7 +6,7 @@ export async function getServerSideProps() {
     return {
         redirect: {
             permanent: true,
-            destination: 'http://77.232.137.109:1338/admin/',
+            destination: 'https://cms.mycareer.fun/admin/',
         },
     }
 }
