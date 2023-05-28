@@ -3,7 +3,7 @@ import { FC, ReactNode } from 'react'
 
 interface IMainLayoutProps {
     children: ReactNode
-    header: ReactNode
+    header?: ReactNode
 }
 
 const MainLayout: FC<IMainLayoutProps> = ({ children, header = <Header /> }) => {

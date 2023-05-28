@@ -123,6 +123,7 @@ const Projects: FC<INewsProps> = ({
                                     <Link
                                         key={project.id}
                                         href={toProject(project.tag)}
+                                        className='h-full'
                                     >
                                         <ProjectCard
                                             onClick={(project) => {

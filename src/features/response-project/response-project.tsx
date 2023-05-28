@@ -55,7 +55,7 @@ const ResponseProject: React.FC<IResponseProjectProps> = ({
         <>
             <div className='flex flex-col gap-2 max-w-[496px]'>
                 <span className=' font-bold text-base'>Загрузите файлы</span>
-                <span>Для отклика на стажировку необходимо загрузить решение тестового задания и резюме</span>
+                <span>Для отклика на стажировку необходимо загрузить решение тестового задания и резюме (.pdf / архив)</span>
             </div>
             <DragNDrop
                 setFiles={handleFileChange}
