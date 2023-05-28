@@ -2,7 +2,6 @@ import React, { FC, ReactNode } from 'react';
 import Chart from '@/components/charts/bar/bar';
 import MainLayout from '@/layouts/main';
 import CuratorHeader from '@/features/header/curator-header';
-import useStatistics from '@/hooks/use-statistics';
 
 
 
