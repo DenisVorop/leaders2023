@@ -94,6 +94,15 @@ export const profileApi = createApi({
             providesTags: ["Profile"],
             transformResponse: (response: IAllExperiences) => response
         }),
+        approveUserForm: builder.mutation<unknown, { email: "aa@test.ru", status: "approved" | 'declined', comment: string }>({
+            query: (body) => {
+                return {
+                    url: '/admin/',
+                    method: 'PUT',
+                    body,
+                }
+            }
+        })
     })
 })
 
@@ -108,4 +117,5 @@ export const {
     // CURATOR
     useGetAllProfilesQuery,
     useGetAllExperiencesQuery,
+    useApproveUserFormMutation,
 } = profileApi

@@ -2,7 +2,7 @@ import NewsCard from '@/features/news-card/news-card'
 import MainLayout from '@/layouts/main'
 import { TStore, wrapper } from '@/services/store'
 import { GetStaticPropsContext } from 'next'
-import { FC, ReactNode, useEffect, useMemo, useState } from 'react'
+import { FC, ReactNode, useMemo, useState } from 'react'
 
 import dynamic from 'next/dynamic'
 import ProfileProgress from '@/features/profile-progress/profile-progress'
@@ -11,11 +11,7 @@ import Image, { StaticImageData } from 'next/image'
 
 const Chat = dynamic(() => import("@/components/realtime/chat"), { ssr: false })
 
-
-interface IDashboardProps {
-}
-
-const Dashboard: FC<IDashboardProps> = () => {
+const Dashboard: FC = () => {
     const [department, setDepartment] = useState(hardcodeDepartmentsBadges[0])
 
     const selectedDepartment = useMemo(() => {
