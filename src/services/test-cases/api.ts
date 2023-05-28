@@ -3,6 +3,8 @@ import { HYDRATE } from "next-redux-wrapper"
 import { secureQueryBuilder } from "../auth/api";
 import { BASE_URL, PORTS } from "@/utils/paths";
 import { UserAnswer } from "@/pages/test-cases";
+import { EStatus } from "@/types/integrations";
+import { EProfileStatuses } from "@/types/enums";
 
 export type TAnswer = {
     text: string,
@@ -31,6 +33,7 @@ export type TTestCase = {
 export type TTestCaseRequest = Omit<TTestCase, 'id'> & { questions: TQuestionRequest[] }
 export interface ISoloTestCase extends Omit<TTestCase, 'questions'> { id: number, questions_count: number }
 export interface IOneOfTestCases extends ISoloTestCase { total_score: number }
+export type TTestResult = { id: number, test_case_id: number, score: number, is_accepted: boolean, type: string }
 
 // const baseQuery = secureQueryBuilder(`${BASE_URL}${PORTS.actions_port}/test-cases/`);
 const baseQuery = secureQueryBuilder(`https://mycareer.fun${PORTS.actions_port}/test-cases`);
@@ -49,6 +52,15 @@ export const testCasesApi = createApi({
             query: () => {
                 return {
                     url: `/`,
+                    method: "GET",
+                }
+            },
+            providesTags: ["TestCase"],
+        }),
+        getTestResult: builder.query<TTestResult[], null>({
+            query: () => {
+                return {
+                    url: `/results`,
                     method: "GET",
                 }
             },
@@ -94,6 +106,7 @@ export const testCasesApi = createApi({
 })
 
 export const {
+    useGetTestResultQuery,
     useGetAllTestCasesQuery,
     useCreateTestCaseMutation,
     useGetTestCaseQuery,
