@@ -76,7 +76,7 @@ const NewsArticle: FC<INewsArticleProps> = ({
     )
 }
 
-export const getStaticProps = wrapper.getStaticProps(
+export const getServerSideProps = wrapper.getServerSideProps(
     (store: TStore) => async (ctx: GetStaticPropsContext) => {
         const articleTag = ctx.params.news_article.toString()
         const articleId = getArticleIdFromPath(articleTag)

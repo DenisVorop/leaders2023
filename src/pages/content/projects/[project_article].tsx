@@ -83,7 +83,7 @@ const ProjectArticle: FC<IProjectArticleProps> = ({
     )
 }
 
-export const getStaticProps = wrapper.getStaticProps(
+export const getServerSideProps = wrapper.getServerSideProps(
     (store: TStore) => async (ctx: GetStaticPropsContext) => {
         const articleTag = ctx.params.project_article.toString()
         const articleId = getArticleIdFromPath(articleTag)
