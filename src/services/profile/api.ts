@@ -16,7 +16,8 @@ export type TCreateProfileRequest = (Omit<IPersonalData, 'dateOfBirth'> & { date
     & (Omit<IEducationData, 'yearGraduation'> & { year_graduation: string })
     & { source?: string, contact?: string, text?: string, direction?: string }
 
-const baseQuery = secureQueryBuilder(`${BASE_URL}${PORTS.profile_port}/profile/`);
+// const baseQuery = secureQueryBuilder(`${BASE_URL}${PORTS.profile_port}/profile/`);
+const baseQuery = secureQueryBuilder(`https://mycareer.fun/-profile-/profile/`);
 
 export const profileApi = createApi({
     reducerPath: "profileApi",
@@ -32,7 +33,7 @@ export const profileApi = createApi({
         createProfile: builder.mutation<any, TCreateProfileRequest>({
             query: (body) => {
                 return {
-                    url: `/`,
+                    url: '/',
                     method: "POST",
                     body,
                 }
@@ -43,7 +44,7 @@ export const profileApi = createApi({
         createProfileExperience: builder.mutation<any, IExperienceData>({
             query: (body) => {
                 return {
-                    url: `/experience`,
+                    url: '/experience',
                     method: "POST",
                     body,
                 }
@@ -54,7 +55,7 @@ export const profileApi = createApi({
         getProfile: builder.query<TUserProfile, null>({
             query: () => {
                 return {
-                    url: `/user`,
+                    url: '/user',
                     method: "GET",
                 }
             },
@@ -64,7 +65,7 @@ export const profileApi = createApi({
         getExperience: builder.query<TExperience[], null>({
             query: () => {
                 return {
-                    url: `/user/experience`,
+                    url: '/user/experience',
                     method: "GET",
                 }
             },
@@ -77,7 +78,7 @@ export const profileApi = createApi({
         getAllProfiles: builder.query<IAllProfiles, null>({
             query: () => {
                 return {
-                    url: `/`,
+                    url: '/',
                     method: "GET",
                 }
             },
@@ -87,7 +88,7 @@ export const profileApi = createApi({
         getAllExperiences: builder.query<IAllExperiences, null>({
             query: () => {
                 return {
-                    url: `/experience`,
+                    url: '/experience',
                     method: "GET",
                 }
             },

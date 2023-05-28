@@ -97,7 +97,6 @@ const Projects: FC<INewsProps> = ({
                                     </Dropdown.Item>
                                 )}
                             </Dropdown>
-                            - изменить не забыть и если успеть!!
                         </div>
                         <div className='flex items-center gap-5'>
                             <div className=' font-bold text-base'>230 подходящих стажировок</div>

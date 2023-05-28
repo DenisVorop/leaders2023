@@ -56,7 +56,7 @@ const Register = () => {
   return (
     <div className="card">
       <div className="card__header">
-        <h2>Регистрация в <span className="text-blue-600  font-bold">mycareer.fun</span></h2>
+        <h2>Регистрация в <span className="text-purple-600  font-bold">mycareer.fun</span></h2>
         </div>
         <FormProvider {...methods}>
           <form className="mt-8 space-y-6" onSubmit={methods.handleSubmit(submitHandler)}>

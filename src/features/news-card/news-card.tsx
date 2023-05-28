@@ -6,12 +6,12 @@ import Link from 'next/link'
 import React from 'react'
 import Slider from '../slider/slider'
 
-interface INewsCardProps { }
+interface INewsCardProps {
+    params?: typeof initialContentParams
+}
 
-const query = { ...initialContentParams, limit: 5 }
-
-const NewsCard: React.FC<INewsCardProps> = () => {
-    const [newsData, {isLoading, isError}] = useNews({ newsParams: query })
+const NewsCard: React.FC<INewsCardProps> = ({ params = initialContentParams }) => {
+    const [newsData, { isLoading, isError }] = useNews({ newsParams: params })
 
     const slides = isTNewsData(newsData)
         ? newsData?.news?.map(slide => {
@@ -35,7 +35,7 @@ const NewsCard: React.FC<INewsCardProps> = () => {
         : null
 
     return (
-        <div className='card max-w-full flex flex-col gap-5'>
+        <div className='card max-w-full flex flex-col gap-5 relative'>
             <div className='flex items-center justify-between'>
                 <div className='uppercase text-gray-400 text-xs'>Новости</div>
                 <button className='px-3 py-1 text-xs bg-purple-500 text-purple-50 rounded-md'>
@@ -51,6 +51,16 @@ const NewsCard: React.FC<INewsCardProps> = () => {
                     </div>
                 </div>
                 : <Slider slides={slides} />
+            }
+            {slides?.length &&
+                <div className='flex items-center gap-1 absolute bottom-[10px] left-[50%] translate-x-[-50%]'>
+                    {slides?.map((_, index) => {
+                        return <div
+                            key={index}
+                            className={` w-2 h-2 rounded-full ${!index ? 'bg-purple-600' : 'bg-gray-400'}`}
+                        />
+                    })}
+                </div>
             }
         </div>
     )

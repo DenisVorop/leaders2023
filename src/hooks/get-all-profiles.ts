@@ -1,5 +1,5 @@
 import { useGetAllExperiencesQuery, useGetAllProfilesQuery } from "@/services/profile/api"
-import { TExperience, TUserProfile } from "@/types/types";
+import { IAllProfiles, TExperience, TUserProfile } from "@/types/types";
 import { useMemo } from "react"
 
 // todo слишком жирный обход, надо оптимизировать запросы

@@ -62,9 +62,9 @@ const Login = () => {
 
     return (
 
-        <div className="card w-[480px]">
+        <div className="card w-full md:w-[480px]">
             <h2 className="card__header">
-                Войти в <span className="text-blue-600  font-bold">mycareer.fun</span>
+                Войти в <span className="text-purple-600  font-bold">mycareer.fun</span>
             </h2>
 
             <FormProvider {...methods}>
@@ -116,7 +116,7 @@ const Login = () => {
                         <div className="ml-3 text-sm">
                             <label for="remember" className="font-medium text-gray-500 dark:text-gray-400">Запомнить меня</label>
                         </div>
-                        <span className="ml-auto link">
+                        <span className="ml-auto text-sm link md:text-base">
                             <Link href="/auth/restore-password/">
                                 Забыли пароль?
                             </Link>

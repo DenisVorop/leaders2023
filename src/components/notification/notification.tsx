@@ -124,7 +124,7 @@ const Notification: FC = () => {
 
               <div className="w-full pl-3">
                 <div className="text-gray-500 text-sm mb-1.5 dark:text-gray-400">{notification.message}</div>
-                <div className="text-[10px] text-blue-400 dark:text-blue-300">{formatTimeAgo(new Date(notification.timestamp))}</div>
+                <div className="text-[10px] text-purple-400 dark:text-purple-300">{formatTimeAgo(new Date(notification.timestamp))}</div>
               </div>
             </Link>
             )}

@@ -37,7 +37,7 @@ const PersonalDataStep: FC<IPersonalDataStepProps> = ({ setStep }) => {
 
             <div className="flex flex-col">
                 <div className="grid grid-cols-3 mb-6">
-                    <div className=" col-span-2 flex gap-5">
+                    <div className="col-span-3 lg:col-span-2 flex flex-col md:flex-row gap-5">
                         <div className="w-full">
                             <label htmlFor="name" className="label">Имя</label>
                             <input
@@ -73,7 +73,7 @@ const PersonalDataStep: FC<IPersonalDataStepProps> = ({ setStep }) => {
                     </div>
                 </div>
                 <div className="grid grid-cols-3 mb-6">
-                    <div className=" col-span-2 flex gap-5">
+                    <div className="col-span-3 lg:col-span-2 flex flex-col md:flex-row gap-5">
                         <div className="w-full">
                             <label htmlFor="dateOfBirth" className="label">Дата рождения</label>
                             <input
@@ -110,7 +110,7 @@ const PersonalDataStep: FC<IPersonalDataStepProps> = ({ setStep }) => {
                     </div>
                 </div>
                 <div className="grid grid-cols-3 mb-6">
-                    <div className=" col-span-2 flex gap-5">
+                    <div className="col-span-3 lg:col-span-2 flex flex-col md:flex-row gap-5">
                         <div>
                             <div className="label">Пол</div>
                             <fieldset className="w-full flex items-center gap-4">

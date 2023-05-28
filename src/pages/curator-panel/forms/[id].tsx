@@ -82,13 +82,13 @@ const Form: FC<IFormProps> = ({ profileId }) => {
                             </div>
                         </div>
                         <div className='text-lg font-bold'>Информация о пользователе</div>
-                        <Divider className='my-0' />
+                        <Divider className='my-2' />
                         <div className='flex'>
                             <Personal profile={profile} />
-                            <Divider className=' mx-4' vertical />
+                            <Divider className=' mx-4 h-[180px]' vertical />
                             <Documents profile={profile} />
                         </div>
-                        <Divider className=' my-0' />
+                        <Divider className=' my-2' />
                         <div className='flex'>
                             <Education profile={profile} />
                             <Divider className=' mx-4' vertical />
