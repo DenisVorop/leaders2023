@@ -14,6 +14,7 @@ const Header: FC<IHeaderProps> = () => {
     const router = useRouter()
     const logout = () => {
         router.push('/auth/login')
+        localStorage.clear()
     }
 
     return (
@@ -44,6 +45,14 @@ const Header: FC<IHeaderProps> = () => {
                                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                                     >
                                         Профиль
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        href="/profile/responded-projects"
+                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                    >
+                                        Отклики
                                     </Link>
                                 </li>
                                 <li

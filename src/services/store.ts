@@ -8,6 +8,7 @@ import { api as activityApi } from "./statistics/api"
 import { profileApi } from './profile/api';
 import { testCasesApi } from './test-cases/api';
 import { contentActionsApi } from './content/actions-api';
+import { notificationApi } from './notification/api';
 
 
 const combinedReducer = combineReducers({
@@ -17,6 +18,7 @@ const combinedReducer = combineReducers({
   [profileApi.reducerPath]: profileApi.reducer,
   [testCasesApi.reducerPath]: testCasesApi.reducer,
   [contentActionsApi.reducerPath]: contentActionsApi.reducer,
+  [notificationApi.reducerPath]: notificationApi.reducer,
 });
 
 
@@ -44,6 +46,7 @@ export const store = configureStore({
     profileApi.middleware,
     testCasesApi.middleware,
     contentActionsApi.middleware,
+    notificationApi.middleware,
   ]),
 })
 

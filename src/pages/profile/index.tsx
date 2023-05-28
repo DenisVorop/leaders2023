@@ -7,11 +7,15 @@ import MainLayout from "@/layouts/main"
 import { useMeQuery } from "@/services/auth/api"
 import { useNotify } from "@/services/notification/zustand"
 import { useGetExperienceQuery, useGetProfileQuery } from "@/services/profile/api"
-import { FC, ReactNode, useEffect } from "react"
+import { FC, ReactNode, useEffect, useState } from "react"
 import Education from "@/features/profile/education"
 import Experience from "@/features/profile/experience"
 import { useRouter } from "next/router"
 import { useErrorProcessing } from "@/hooks/use-error-processing"
+import Popup from "@/features/popup/popup"
+import { useGetNotificationKeyQuery } from "@/services/notification/api"
+import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard"
+import { openLinkInNewWindow } from "@/utils/utils"
 
 enum ENavigationItems {
     LK = 'Личные данные',
@@ -57,9 +61,13 @@ const Profile: FC<IProfileProps> = () => {
     const { data: session, isLoading: isLoadingSession, isError: isErrorLoadingSession } = useMeQuery(null)
     const { data: userProfile, isLoading: isLoadingUserProfile } = useGetProfileQuery(null, { pollingInterval: 30 * 1000 })
     const { data: userExperience, isLoading: isLoadingUserExperience } = useGetExperienceQuery(null)
+    const { data: notification } = useGetNotificationKeyQuery(null)
+    console.log(notification)
     const [activeItem, setActiveItem] = useSessionStorage(EMenu.ITEM, ENavigationItems.LK)
     const router = useRouter()
+    const [, copy, successCopied] = useCopyToClipboard()
 
+    useErrorProcessing(successCopied, 'success', 'Код успешно скопирован')
     useErrorProcessing(isErrorLoadingSession, 'danger', 'Произошла ошибка при загрузке данных')
     useErrorProcessing(!userProfile && !isLoadingUserProfile, 'danger', 'Необходимо заполнить анкету', () => router.push('/personal-form'))
 
@@ -69,48 +77,80 @@ const Profile: FC<IProfileProps> = () => {
         }
     }, [])
 
+    const [open, setOpen] = useState(false)
+
     if (isLoadingSession || isLoadingUserProfile || isLoadingUserExperience) return <Spinner />
     if (!userProfile) return <></>
 
     return (
-        <div>
-            <div className="custom-container">
-                <div className="card bg-white-opacity flex flex-col gap-6">
-                    <div className="flex flex-col gap-4">
-                        <Back />
-                        <div className=" font-bold text-xl">Личная информация</div>
-                    </div>
-                    <div className="grid grid-cols-6 gap-6">
-                        <div className="col-span-1 flex flex-col gap-4">
-                            {navigation.map(({ label, svg }, index) => {
-                                return <div
-                                    key={index}
-                                    className={`flex items-center gap-2 cursor-pointer hover:text-purple-600 ${activeItem === label && 'text-purple-600'}`}
-                                    onClick={() => setActiveItem(label)}
-                                >
-                                    {svg}
-                                    <span>{label}</span>
-                                </div>
-                            })}
+        <>
+            <div>
+                <div className="custom-container">
+                    <div className="card bg-white-opacity flex flex-col gap-6">
+                        <div className="flex flex-col gap-4">
+                            <Back />
+                            <div className=" font-bold text-xl">Личная информация</div>
                         </div>
-                        <div className="card col-span-5">
-                            {activeItem === ENavigationItems.LK &&
-                                <Personal profile={userProfile} session={session} />
-                            }
-                            {activeItem === ENavigationItems.DOC &&
-                                <Documents profile={userProfile} />
-                            }
-                            {activeItem === ENavigationItems.EDUC &&
-                                <Education profile={userProfile} />
-                            }
-                            {activeItem === ENavigationItems.WORK &&
-                                <Experience experience={userExperience} />
-                            }
+                        <div className="grid grid-cols-6 gap-6">
+                            <div className="col-span-1 flex flex-col gap-4">
+                                {navigation.map(({ label, svg }, index) => {
+                                    return <div
+                                        key={index}
+                                        className={`flex items-center gap-2 cursor-pointer hover:text-purple-600 ${activeItem === label && 'text-purple-600'}`}
+                                        onClick={() => setActiveItem(label)}
+                                    >
+                                        {svg}
+                                        <span>{label}</span>
+                                    </div>
+                                })}
+                                {notification?.token &&
+                                    <div
+                                        className={`flex items-center gap-2 cursor-pointer hover:text-purple-600`}
+                                        onClick={() => setOpen(true)}
+                                    >
+                                        <svg className="h-5" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                                        </svg>
+                                        <span>Уведомления</span>
+                                    </div>
+                                }
+                            </div>
+                            <div className="card col-span-5">
+                                {activeItem === ENavigationItems.LK &&
+                                    <Personal profile={userProfile} session={session} />
+                                }
+                                {activeItem === ENavigationItems.DOC &&
+                                    <Documents profile={userProfile} />
+                                }
+                                {activeItem === ENavigationItems.EDUC &&
+                                    <Education profile={userProfile} />
+                                }
+                                {activeItem === ENavigationItems.WORK &&
+                                    <Experience experience={userExperience} />
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <Popup
+                isVisible={open}
+                onClose={() => setOpen(false)}
+                className="flex flex-col gap-5"
+            >
+                <div className="flex flex-col gap-2">
+                    <span className=" font-bold text-base">Подключение телеграм бота</span>
+                    <span>Скопируйте токен и вставьте в телеграм-бота</span>
+                </div>
+                <span
+                    onClick={() => copy(`/code ${notification?.token}`)}
+                    className=" cursor-pointer max-w-[432px] h-[36px] rounded-lg bg-purple-100 flex items-center px-4"
+                >
+                    <p className="truncate">{notification?.token}</p>
+                </span>
+                <button className="button" onClick={() => openLinkInNewWindow(notification?.link)}>Перейти в телеграм</button>
+            </Popup>
+        </>
     )
 }
 

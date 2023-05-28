@@ -45,6 +45,7 @@ export type TProject = {
     tasks: string[]
     img: string[] | string
 }
+
 export type TProjectsData = { total: number, projects: TProject[] }
 
 export const contentApi = createApi({
