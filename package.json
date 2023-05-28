@@ -7,7 +7,7 @@
     "push": "node ./src/services/notification/webpush/daemon.mjs",
     "dev-with-push": "concurrently \"next dev\" \"node ./src/services/notification/webpush/daemon.mjs\"",
     "build": "next build",
-    "start": "next start && node ./src/services/notification/webpush/daemon.ts",
+    "start": "concurrently \"next start\" \"node ./src/services/notification/webpush/daemon.mjs\"",
     "lint": "next lint"
   },
   "dependencies": {

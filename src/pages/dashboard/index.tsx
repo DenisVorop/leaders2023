@@ -6,7 +6,7 @@ import { FC, ReactNode, useMemo, useState } from 'react'
 
 import dynamic from 'next/dynamic'
 import ProfileProgress from '@/features/profile-progress/profile-progress'
-import { hardcodeDepartments, hardcodeDepartmentsBadges } from './hardcodeDeparments'
+import { hardcodeDepartments, hardcodeDepartmentsBadges } from '../../utils/hardcodeDeparments'
 import Image, { StaticImageData } from 'next/image'
 
 const Chat = dynamic(() => import("@/components/realtime/chat"), { ssr: false })
@@ -20,9 +20,6 @@ const Dashboard: FC = () => {
 
     return (
         <div>
-            <div className="fixed bottom-0 z-50 right-0 mx-2 my-2">
-                <Chat />
-            </div>
             <div className='custom-container'>
                 <div className='grid grid-cols-6 gap-6'>
                     <div className=' col-span-2 flex flex-col gap-6'>
