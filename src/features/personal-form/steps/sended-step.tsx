@@ -6,6 +6,7 @@ import { IExperienceData } from './experience-step'
 import { useCreateProfileExperienceMutation, useCreateProfileMutation } from '@/services/profile/api'
 import { useRouter } from 'next/router'
 import { useNotify } from '@/services/notification/zustand'
+import { useErrorProcessing } from '@/hooks/use-error-processing'
 
 interface ISendedStepProps {
     personalData: IPersonalData
@@ -22,9 +23,8 @@ const SendedStep: FC<ISendedStepProps> = ({
 }) => {
     const router = useRouter()
 
-    const [createProfile] = useCreateProfileMutation()
-    const [createProfileExperience] = useCreateProfileExperienceMutation()
-    const [notify] = useNotify();
+    const [createProfile, { isSuccess: isSuccessProfile, isError: isErrorProfile }] = useCreateProfileMutation()
+    const [createProfileExperience, { isSuccess: isSuccessExperience, isError: isErrorExperience }] = useCreateProfileExperienceMutation()
 
     useLayoutEffect(() => {
         if (
@@ -36,6 +36,7 @@ const SendedStep: FC<ISendedStepProps> = ({
             name: personalData.name,
             surname: personalData.surname,
             patronymic: personalData.patronymic,
+            gender: personalData.gender,
             city: personalData.city,
             citizenship: personalData.citizenship,
             date_of_birth: personalData.dateOfBirth,
@@ -47,30 +48,23 @@ const SendedStep: FC<ISendedStepProps> = ({
             university: educationData.university,
             year_graduation: educationData.yearGraduation,
 
+            direction: 'Не заполнено',
             source: '',
             contact: '',
             text: '',
         })
 
-        createProfileExperience({ ...experienceData[0] })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [createProfile, experienceData])
 
-        notify({
-            delay: 60 * 1000,
-            type: "success",
-            content: () => (
-                <div className="text-green-500">Ураааа</div>
-            ),
-        });
-
+    useErrorProcessing(isSuccessExperience, 'success', 'Вы успешно заполнили анкету', () => {
         setTimeout(() => {
             router.push('/dashboard')
         }, 2000)
-
-        return () => {
-            console.log('clean')
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [createProfile, experienceData])
+    })
+    useErrorProcessing(isErrorExperience, 'danger', 'Произошла ошибка при заполнении анкеты')
+    useErrorProcessing(isSuccessProfile, 'success', 'Вы успешно создали профиль', () => createProfileExperience({ ...experienceData[0] }))
+    useErrorProcessing(isErrorProfile, 'danger', 'Произошла ошибка при создании профиля')
 
     return (
         <div className='flex flex-col gap-6'>

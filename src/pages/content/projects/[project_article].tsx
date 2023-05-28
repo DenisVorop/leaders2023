@@ -13,11 +13,10 @@ interface IProjectArticleProps {
 }
 
 const ProjectArticle: FC<IProjectArticleProps> = ({
-    query
+    query,
 }) => {
     const { data: projectArticle } = useGetProjectArticleQuery(query)
     const { name, categories, full_text, img, tasks } = projectArticle || {}
-    console.log(projectArticle)
 
     return (
         <div>

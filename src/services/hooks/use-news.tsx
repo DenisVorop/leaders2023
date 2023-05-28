@@ -11,12 +11,12 @@ export const initialContentParams = {
 const SEC_60 = 60 * 1000
 
 interface IParams { interval?: number, newsParams?: TContentRequest }
-export const useNews = (params: IParams): [TNewsData, boolean] => {
-    const { data: newsData, isLoading } = useGetNewsQuery(params?.newsParams ?? initialContentParams, {
+export const useNews = (params: IParams): [TNewsData, { isLoading: boolean, isError: boolean }] => {
+    const { data: newsData, isLoading, isError } = useGetNewsQuery(params?.newsParams ?? initialContentParams, {
         pollingInterval: params?.interval || SEC_60
     })
 
-    return [newsData, isLoading]
+    return [newsData, { isLoading, isError }]
 }
 
 export function isTNewsData(obj: TNewsData): obj is TNewsData {

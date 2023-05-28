@@ -33,7 +33,7 @@ const nextConfig = {
       },
       {
         source: "/-strapi-proxy-/:slug*",
-        destination: "http://77.232.137.109:1338/:slug*",
+        destination: "https://cms.mycareer.fun/:slug*",
       },
     ]
   },
@@ -47,4 +47,3 @@ const withPWA = require('next-pwa')({
 })
 
 module.exports = withPWA(nextConfig)
-

@@ -72,28 +72,33 @@ const Projects: FC<INewsProps> = ({
     return (
         <div>
             <div className='custom-container'>
-                <div className='flex flex-col gap-[64px]'>
-                    <SearchInput
-                        onClick={handleSearch}
-                        register={register}
-                        name='searchQuery'
-                    />
-                    <Dropdown label="Выпадающий список">
-                        <Dropdown.Header>
-                            Сортировать по
-                        </Dropdown.Header>
-                        <Dropdown.Divider className="h-[1px]" />
-                        {sortParams.map(param =>
-                            <Dropdown.Item
-                                key={param.param}
-                                className={`${projectParams.param === param.param && 'bg-gray-200'}`}
-                                onClick={() => handleSort(param.param)}
-                            >
-                                {param.label} {projectParams.param === param.param && `(${helperDirectionFunc(projectParams.sortDirection)})`}
-                            </Dropdown.Item>
-                        )}
-                    </Dropdown>
+                <div className='flex flex-col gap-6'>
+                    <div className=' max-w-md'>
+                        <SearchInput
+                            onClick={handleSearch}
+                            register={register}
+                            name='searchQuery'
+                        />
+                    </div>
                     <div className='card bg-white-opacity flex flex-col gap-5'>
+                        <div className='flex'>
+                            <Dropdown label="Выпадающий список">
+                                <Dropdown.Header>
+                                    Сортировать по
+                                </Dropdown.Header>
+                                <Dropdown.Divider className="h-[1px]" />
+                                {sortParams.map(param =>
+                                    <Dropdown.Item
+                                        key={param.param}
+                                        className={`${projectParams.param === param.param && 'bg-gray-200'}`}
+                                        onClick={() => handleSort(param.param)}
+                                    >
+                                        {param.label} {projectParams.param === param.param && `(${helperDirectionFunc(projectParams.sortDirection)})`}
+                                    </Dropdown.Item>
+                                )}
+                            </Dropdown>
+                            - изменить не забыть и если успеть!!
+                        </div>
                         <div className='flex items-center gap-5'>
                             <div className=' font-bold text-base'>230 подходящих стажировок</div>
                             <div className='flex items-center gap-2'>{quickFilters.map((filter, index) =>

@@ -11,7 +11,7 @@ const PieChartWithLegend = ({ data, colors, size = "small" }) => {
   const innerRadius = size === "small" ? 30 : 50;
 
   return (
-    <div className="flex flex-row justify-between items-center gap-32">
+    <div className="flex flex-row justify-between items-center gap-2">
       <ResponsiveContainer width={chartWidth} height={chartHeight}>
         <PieChart width={pieWidth} height={pieHeight}>
           <Pie

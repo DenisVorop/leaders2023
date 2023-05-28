@@ -11,6 +11,7 @@ import { FC, ReactNode, useEffect } from "react"
 import Education from "@/features/profile/education"
 import Experience from "@/features/profile/experience"
 import { useRouter } from "next/router"
+import { useErrorProcessing } from "@/hooks/use-error-processing"
 
 enum ENavigationItems {
     LK = 'Личные данные',
@@ -54,21 +55,13 @@ enum EMenu {
 
 const Profile: FC<IProfileProps> = () => {
     const { data: session, isLoading: isLoadingSession, isError: isErrorLoadingSession } = useMeQuery(null)
-    const { data: userProfile, isLoading: isLoadingUserProfile } = useGetProfileQuery(null)
+    const { data: userProfile, isLoading: isLoadingUserProfile } = useGetProfileQuery(null, { pollingInterval: 30 * 1000 })
     const { data: userExperience, isLoading: isLoadingUserExperience } = useGetExperienceQuery(null)
     const [activeItem, setActiveItem] = useSessionStorage(EMenu.ITEM, ENavigationItems.LK)
-    const [notify] = useNotify()
     const router = useRouter()
 
-    useEffect(() => {
-        if (isErrorLoadingSession) {
-            notify({ type: 'danger', content: () => 'Произошла ошибка при загрузке данных' })
-        }
-        if (!userProfile && !isLoadingUserProfile) {
-            notify({ type: 'danger', content: () => 'Необходимо заполнить анкету' })
-            router.push('/personal-form')
-        }
-    }, [isErrorLoadingSession, isLoadingUserProfile, router, userProfile])
+    useErrorProcessing(isErrorLoadingSession, 'danger', 'Произошла ошибка при загрузке данных')
+    useErrorProcessing(!userProfile && !isLoadingUserProfile, 'danger', 'Необходимо заполнить анкету', () => router.push('/personal-form'))
 
     useEffect(() => {
         return () => {

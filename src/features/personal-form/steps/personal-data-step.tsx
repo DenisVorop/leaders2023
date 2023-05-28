@@ -1,5 +1,5 @@
 import { SetValue, useSessionStorage } from "@/hooks/use-session-storage"
-import { FC, memo } from "react"
+import { FC, memo, useState } from "react"
 import { useForm } from "react-hook-form"
 import { ESteps } from "../stepper"
 
@@ -15,12 +15,14 @@ export interface IPersonalData {
     dateOfBirth: string
     city: string
     citizenship: string
+    gender: 'male' | 'female'
 }
 
 const PersonalDataStep: FC<IPersonalDataStepProps> = ({ setStep }) => {
-    const [personalData, setPersonalData] = useSessionStorage<IPersonalData>(ESteps.PERSONAL, {
-        name: '', surname: '', patronymic: '', dateOfBirth: '', city: '', citizenship: '',
+    const [personalData, setPersonalData] = useSessionStorage<Omit<IPersonalData, 'gender'>>(ESteps.PERSONAL, {
+        name: '', surname: '', patronymic: '', dateOfBirth: '', city: '', citizenship: ''
     })
+    const [gender, setGender] = useState<'male' | 'female'>('male')
     const { handleSubmit, register, reset, getValues, formState: { errors } } = useForm<IPersonalData>({
         defaultValues: personalData
     });
@@ -28,7 +30,8 @@ const PersonalDataStep: FC<IPersonalDataStepProps> = ({ setStep }) => {
     return (
 
         <form onSubmit={handleSubmit(data => {
-            setPersonalData(data)
+            console.log(Object.assign(data, { gender }))
+            setPersonalData(Object.assign(data, gender))
             setStep(prev => ++prev)
         })}>
 
@@ -103,6 +106,37 @@ const PersonalDataStep: FC<IPersonalDataStepProps> = ({ setStep }) => {
                                 placeholder=""
                                 required
                             />
+                        </div>
+                    </div>
+                </div>
+                <div className="grid grid-cols-3 mb-6">
+                    <div className=" col-span-2 flex gap-5">
+                        <div>
+                            <div className="label">Пол</div>
+                            <fieldset className="w-full flex items-center gap-4">
+                                <label htmlFor="genderMale" className="flex items-center gap-3">
+                                    <input
+                                        id="genderMale"
+                                        type="radio"
+                                        checked={gender === 'male'}
+                                        onChange={() => setGender('male')}
+                                        className="text-purple-600"
+                                        required
+                                    />
+                                    <span>Мужской</span>
+                                </label>
+                                <label htmlFor="genderFemale" className="flex items-center gap-3">
+                                    <input
+                                        id="genderFemale"
+                                        type="radio"
+                                        checked={gender === 'female'}
+                                        onChange={() => setGender('female')}
+                                        className="text-purple-600"
+                                        required
+                                    />
+                                    <span>Женский</span>
+                                </label>
+                            </fieldset>
                         </div>
                     </div>
                 </div>

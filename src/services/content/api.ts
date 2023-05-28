@@ -49,7 +49,7 @@ export type TProjectsData = { total: number, projects: TProject[] }
 
 export const contentApi = createApi({
     reducerPath: "contentApi",
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://77.232.137.109:1338/api' }),
+    baseQuery: fetchBaseQuery({ baseUrl: 'https://cms.mycareer.fun/api' }),
     tagTypes: ["News", "Projects"],
     extractRehydrationInfo(action, { reducerPath }) {
         if (action.type === HYDRATE) {
@@ -152,7 +152,7 @@ export const contentApi = createApi({
             providesTags: ["Projects"],
             transformResponse: (response: any) => {
                 const { id, attributes } = response?.data || {}
-                const imgArray = attributes?.img?.data?.map(item => item?.attributes?.url)
+                const imgArray = attributes?.img?.data?.map(item => item?.attributes?.url) || []
                 const categories = attributes?.tags?.data?.map(item => item?.attributes?.name) || []
                 const tasks = attributes?.test_task?.data?.map(item => item?.attributes?.url) || []
                 return {
