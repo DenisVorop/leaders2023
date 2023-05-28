@@ -4,7 +4,7 @@ import { api as authApi } from "./auth/api"
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import { useDispatch } from 'react-redux';
 import { contentApi } from './content/api';
-import { api as activityApi } from "./activity/api"
+import { api as activityApi } from "./statistics/api"
 import { profileApi } from './profile/api';
 import { testCasesApi } from './test-cases/api';
 import { contentActionsApi } from './content/actions-api';
