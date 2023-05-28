@@ -3,7 +3,7 @@ import { FC } from 'react'
 const CuratorPanel: FC = () => <div>should be redirect</div>
 export default CuratorPanel
 
-export const getStaticProps = () => {
+export const getServerSideProps = () => {
     return {
         redirect: {
             statusCode: 301,
