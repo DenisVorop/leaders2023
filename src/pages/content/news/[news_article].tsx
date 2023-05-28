@@ -104,7 +104,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 )
 
 
-export const getStaticPaths = async () => ({ paths: [], fallback: "blocking" })
+// export const getStaticPaths = async () => ({ paths: [], fallback: "blocking" })
 
 
 // @ts-ignore
