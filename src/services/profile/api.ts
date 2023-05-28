@@ -14,7 +14,7 @@ export type TCreateProfileRequest = (Omit<IPersonalData, 'dateOfBirth'> & { date
     & (Omit<IPassportData, 'dateOfIssue' | 'subdivisionCode' | 'passportNumber'>
         & { date_of_issue: string, subdivision_code: string, passport_number: string })
     & (Omit<IEducationData, 'yearGraduation'> & { year_graduation: string })
-    & { source?: string, contact?: string, text?: string }
+    & { source?: string, contact?: string, text?: string, direction?: string }
 
 const baseQuery = secureQueryBuilder(`${BASE_URL}${PORTS.profile_port}/profile/`);
 

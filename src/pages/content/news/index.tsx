@@ -76,7 +76,7 @@ const News: FC<INewsProps> = ({
                                     </Dropdown.Item>
                                 )}
                             </Dropdown>
-                            - изменить не забыть!!
+                            - изменить не забыть и если успеть!!
                         </div>
                         <span className=' font-bold text-base'>{(newsData?.total || 0)} новостей</span>
                         <div className='grid grid-cols-3 gap-5'>
