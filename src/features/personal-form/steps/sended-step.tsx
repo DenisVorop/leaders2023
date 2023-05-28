@@ -69,7 +69,7 @@ const SendedStep: FC<ISendedStepProps> = ({
     return (
         <div className='flex flex-col gap-6'>
             <div>
-                {JSON.stringify([personalData, passportData, educationData, experienceData])}
+                Успешно!
             </div>
         </div>
     )

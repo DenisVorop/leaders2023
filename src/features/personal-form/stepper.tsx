@@ -48,7 +48,7 @@ const Stepper: FC<IStepperProps> = () => {
                 <h1 className='text-gray-900 text-xl'>Анкета</h1>
             </div>
 
-            <ol className="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base">
+            <ol className="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base max-md:flex-wrap">
                 <li className={`${step >= 0 && isDoneClass} flex md:w-full items-center sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700`}>
                     <span className="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
                         {step > 0 ? isDoneSvg : <span className="mr-2">1.</span>}

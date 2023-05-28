@@ -12,7 +12,7 @@ const Documents: FC<IDocumentsProps> = ({
         <div className='flex flex-col gap-6'>
             <span className=' font-bold'>Паспорт</span>
             <div className='flex flex-col gap-3 text-sm'>
-                <div className='flex items-center gap-10'>
+                <div className='flex items-center gap-10 flex-wrap'>
                     <div className='flex flex-col gap-2'>
                         <span className='text-gray-500'>Серия и номер</span>
                         <span className='font-medium'>{profile?.passport_number}</span>
@@ -22,7 +22,7 @@ const Documents: FC<IDocumentsProps> = ({
                         <span className='font-medium'>{profile?.issuer.toUpperCase()}</span>
                     </div>
                 </div>
-                <div className='flex items-center gap-10'>
+                <div className='flex items-center gap-10 flex-wrap'>
                     <div className='flex flex-col gap-2'>
                         <span className='text-gray-500'>Дата выдачи</span>
                         <span className='font-medium'>{new Date(profile?.date_of_issue).toLocaleDateString()}</span>

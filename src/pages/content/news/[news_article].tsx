@@ -26,9 +26,9 @@ const NewsArticle: FC<INewsArticleProps> = ({
                 <div className='card flex flex-col gap-3'>
                     <Back link='/content/news' label='К новостям' />
                     <div className=' grid grid-cols-6 gap-6'>
-                        <div className='flex flex-col gap-5  col-span-4'>
-                            <div className='flex justify-between'>
-                                <div className='flex items-baseline gap-3'>
+                        <div className='flex flex-col gap-5 col-span-6 md:col-span-4'>
+                            <div className='flex justify-between flex-wrap max-md:gap-4'>
+                                <div className='flex items-baseline gap-1 md:gap-3 max-sm:flex-wrap'>
                                     <span className='font-bold text-base'>{name}</span>
                                     <span className='text-gray-400 text-sm'>{new Date(createdAt).toLocaleString()}</span>
                                 </div>
@@ -48,7 +48,7 @@ const NewsArticle: FC<INewsArticleProps> = ({
                         </div>
                         <div className='col-span-6 pt-4 flex flex-col gap-5'>
                             <span className='font-bold text-base'>Рекомендуем вам</span>
-                            <div className='grid grid-cols-3 gap-5'>
+                            <div className='grid grid-cols-1 md:grid-cols-3 gap-5'>
                                 <ArticlePreview
                                     img={img}
                                     title={name}

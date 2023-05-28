@@ -98,25 +98,26 @@ const Projects: FC<INewsProps> = ({
                                 )}
                             </Dropdown>
                         </div>
-                        <div className='flex items-center gap-5'>
+                        <div className='flex items-center gap-5 max-md:flex-wrap'>
                             <div className=' font-bold text-base'>230 подходящих стажировок</div>
-                            <div className='flex items-center gap-2'>{quickFilters.map((filter, index) =>
-                                <span
-                                    key={index}
-                                    className={`${!index ? 'badge-purple bg-purple-200' : 'badge'} cursor-pointer hover:text-purple-600`}
-                                >
-                                    {filter.name}
-                                </span>
-                            )}
+                            <div className='flex items-center gap-2 flex-nowrap overflow-x-scroll whitespace-nowrap'>
+                                {quickFilters.map((filter, index) =>
+                                    <span
+                                        key={index}
+                                        className={`${!index ? 'badge-purple bg-purple-200' : 'badge'} cursor-pointer hover:text-purple-600`}
+                                    >
+                                        {filter.name}
+                                    </span>
+                                )}
                             </div>
-                            <div className='ml-auto text-xs px-3 py-1 bg-purple-500 text-white rounded-md flex gap-1 items-center'>
+                            <div className='ml-auto text-xs px-3 py-1 bg-purple-500 text-white rounded-md flex gap-1 items-center max-sm:w-full whitespace-nowrap'>
                                 <svg className=' h-4' fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 13.5V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m12-3V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m-6-9V3.75m0 3.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 9.75V10.5" />
                                 </svg>
                                 Расширенные фильтры
                             </div>
                         </div>
-                        <div className='grid grid-cols-2 gap-5'>
+                        <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
                             {projectsData?.projects?.map((project) => {
                                 return (
                                     <Link

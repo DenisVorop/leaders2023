@@ -14,7 +14,7 @@ const ProjectCard: FC<IProjectCardProps & TProject> = ({ isResponded, ...project
         <>
             <div className='card flex flex-col gap-5 h-full'>
                 <div className='flex flex-col gap-2'>
-                    <div className='flex justify-between'>
+                    <div className='flex justify-between max-md:flex-wrap max-md:gap-2'>
                         <div className='text-purple-600 text-xl font-bold'>{name}</div>
                         <div className='flex gap-2'>
                             <svg className=' h-6 text-gray-400 cursor-pointer' fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -28,7 +28,7 @@ const ProjectCard: FC<IProjectCardProps & TProject> = ({ isResponded, ...project
                     <Categories categories={categories} />
                 </div>
                 <div>
-                    <div title={organizer} className='flex items-baseline gap-2'>
+                    <div title={organizer} className='flex items-baseline gap-2 max-md:flex-wrap'>
                         <p className='max-w-[172px] truncate'>{organizer}</p>
                         <span className='text-gray-400 text-base ml-3'>Москва, Нагатинская</span>
                     </div>

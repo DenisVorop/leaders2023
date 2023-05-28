@@ -13,7 +13,9 @@ const PersonalForm: FC<IPersonalFormProps> = () => {
     const router = useRouter()
 
     useErrorProcessing(isError, 'danger', 'Произошла ошибка на сервере, мы уже работаем на ее устранением')
-    useErrorProcessing(!!profile?.email, 'danger', 'Вы уже заполнили анкету, чтобы изменить ее, перейдите в профиль')
+    useErrorProcessing(!!profile?.email && !isLoading, 'danger', 'Вы уже заполнили анкету, чтобы изменить ее, перейдите в профиль', () => {
+        router.push('/dashboard')
+    })
 
     useEffect(() => {
         return () => {
@@ -24,7 +26,7 @@ const PersonalForm: FC<IPersonalFormProps> = () => {
     if (isLoading) return <Spinner />
 
     return (
-        <div className="custom-container w-full">
+        <div className="custom-container">
             <Stepper />
         </div>
     )

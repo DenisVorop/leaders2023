@@ -20,13 +20,13 @@ const notificationReducer = (
 ): any => {
   switch (action.type) {
     case "show": {
-      return [...state, {message: action.message, timestamp: action.timestamp}]
+      return [...state, { message: action.message, timestamp: action.timestamp }]
     }
     case "clear": {
       return []
     }
     default: {
-      return [...state, {message: action.message, timestamp: action.timestamp}]
+      return [...state, { message: action.message, timestamp: action.timestamp }]
     }
   }
 }
@@ -82,7 +82,7 @@ const Notification: FC = () => {
     const currentDate = new Date();
     const oneDayAgo = new Date();
     oneDayAgo.setDate(oneDayAgo.getDate() - 1);
-    channel.history({limit: 5, start: oneDayAgo.getTime(), end: currentDate.getTime() }, (err: any, result) => {
+    channel.history({ limit: 5, start: oneDayAgo.getTime(), end: currentDate.getTime() }, (err: any, result) => {
       result.items.forEach(handleMessage)
     })
 
@@ -98,7 +98,7 @@ const Notification: FC = () => {
 
   return (
     <div className="relative flex items-center gap-3 juftify-between px-3">
-      {!sub && <button onClick={register} className="button">Подписаться на уведомления</button>}
+      {!sub && <button onClick={register} className="button max-lg:text-xs py-1 px-2 bg-transparent text-purple-600 hover:bg-gray-100">Подписаться на уведомления</button>}
       {sub && <> <button onClick={(e: any) => {
         e.stopPropagation()
         setOpen(!open)
@@ -119,7 +119,7 @@ const Notification: FC = () => {
           <div className="divide-y divide-gray-100 dark:divide-gray-700">
             {notifications.map((notification: any, key: any) => <Link key={key} href="#" className="flex md:w-96 w-64 px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700">
               <div className="flex-shrink-0">
-                <Icons.Group className="rounded-fullw-8 h-8 fill-white"/>
+                <Icons.Group className="rounded-fullw-8 h-8 fill-white" />
               </div>
 
               <div className="w-full pl-3">

@@ -24,7 +24,7 @@ const ProjectArticle: FC<IProjectArticleProps> = ({
                 <div className='card flex flex-col gap-3'>
                     <Back link='/content/projects' label='К вакансиям' />
                     <div className=' grid grid-cols-6 gap-5'>
-                        <div className='flex flex-col gap-5  col-span-4'>
+                        <div className='flex flex-col gap-5 col-span-6 md:col-span-4'>
                             <ProjectCard
                                 {...projectArticle}
                                 onClick={() => { }}
@@ -34,7 +34,7 @@ const ProjectArticle: FC<IProjectArticleProps> = ({
                             </div>
                             <div className='flex gap-3 flex-wrap'>
                                 <button
-                                    className='button'
+                                    className='button max-md:w-full'
                                 >
                                     Откликнуться
                                 </button>
@@ -54,7 +54,7 @@ const ProjectArticle: FC<IProjectArticleProps> = ({
                         </div>
                         <div className='col-span-6 pt-4 flex flex-col gap-5'>
                             <span className='font-bold text-base'>Вам подойдут эти вакансии</span>
-                            <div className='grid grid-cols-3 gap-5'>
+                            <div className='grid col-span-1 md:grid-cols-3 gap-5'>
                                 <ArticlePreview
                                     img={img}
                                     title={name}

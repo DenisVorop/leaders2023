@@ -20,7 +20,7 @@ const Experience: FC<IExperienceProps> = ({
                                 {array.length > 1 &&
                                     <div className=' text-xs text-gray-400'>{index + 1} МЕСТО РАБОТЫ</div>
                                 }
-                                <div className='flex items-center gap-10 text-sm'>
+                                <div className='flex items-center gap-10 text-sm flex-wrap'>
                                     <div className='flex flex-col gap-2'>
                                         <span className='text-gray-500'>Место работы</span>
                                         <span className='font-medium'>{exp.place}</span>

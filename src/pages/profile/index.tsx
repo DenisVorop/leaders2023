@@ -91,8 +91,8 @@ const Profile: FC<IProfileProps> = () => {
                             <Back />
                             <div className=" font-bold text-xl">Личная информация</div>
                         </div>
-                        <div className="grid grid-cols-6 gap-6">
-                            <div className="col-span-1 flex flex-col gap-4">
+                        <div className="flex flex-col lg:grid lg:grid-cols-6 gap-6">
+                            <div className="col-span-1 flex flex-row lg:flex-col gap-4 whitespace-nowrap flex-nowrap overflow-x-scroll">
                                 {navigation.map(({ label, svg }, index) => {
                                     return <div
                                         key={index}
@@ -146,7 +146,7 @@ const Profile: FC<IProfileProps> = () => {
                     onClick={() => copy(`/code ${notification?.token}`)}
                     className=" cursor-pointer max-w-[432px] h-[36px] rounded-lg bg-purple-100 flex items-center px-4"
                 >
-                    <p className="truncate">{notification?.token}</p>
+                    <p className="truncate max-sm:max-w-[280px] max-md:max-w-[320px]">{notification?.token}</p>
                 </span>
                 <button className="button" onClick={() => openLinkInNewWindow(notification?.link)}>Перейти в телеграм</button>
             </Popup>

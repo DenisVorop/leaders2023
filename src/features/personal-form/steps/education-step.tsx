@@ -30,8 +30,8 @@ const EducationStep: FC<IEducationStepProps> = ({ setStep }) => {
         })}>
 
             <div className="grid grid-cols-3 mb-6">
-                <div className=" grid grid-cols-3 col-span-2 gap-5">
-                    <div>
+                <div className="col-span-3 lg:col-span-2 flex flex-col md:flex-row gap-5">
+                    <div className="w-full">
                         <label htmlFor="education" className="label">Уровень образования</label>
                         <input
                             id="education"
@@ -42,7 +42,7 @@ const EducationStep: FC<IEducationStepProps> = ({ setStep }) => {
                             required
                         />
                     </div>
-                    <div>
+                    <div className="w-full">
                         <label htmlFor="university" className="label">Университет</label>
                         <input
                             id="university"
@@ -53,7 +53,7 @@ const EducationStep: FC<IEducationStepProps> = ({ setStep }) => {
                             required
                         />
                     </div>
-                    <div>
+                    <div className="w-full">
                         <label htmlFor="yearGraduation" className="label">Год окончания университета</label>
                         <input
                             id="yearGraduation"

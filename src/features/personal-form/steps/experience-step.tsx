@@ -31,7 +31,7 @@ const ExperienceStep: FC<IExperienceStepProps> = ({ setStep }) => {
 
             <div className="flex flex-col">
                 <div className="grid grid-cols-3 mb-6">
-                    <div className="grid grid-cols-3 col-span-2 gap-5">
+                    <div className="col-span-3 lg:col-span-2 flex flex-col md:flex-row gap-5">
                         <div>
                             <label htmlFor="duration" className="label">Продолжительность</label>
                             <input
@@ -69,7 +69,7 @@ const ExperienceStep: FC<IExperienceStepProps> = ({ setStep }) => {
                 </div>
 
                 <div className="grid grid-cols-3">
-                    <div className=" col-span-2">
+                    <div className="col-span-3 md:col-span-2">
                         <label htmlFor="description" className="label">Опишите свой опыт работы</label>
                         <textarea
                             id="description"

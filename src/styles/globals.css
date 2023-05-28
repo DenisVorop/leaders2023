@@ -24,7 +24,7 @@
     @apply text-purple-600 hover:underline dark:text-purple-500;
   }
   .custom-container {
-    @apply max-w-[1370px] py-0 px-[15px] box-content my-0 mx-auto h-full flex-auto;
+    @apply max-w-[1370px] py-0 px-[15px] box-content my-0 mx-auto h-full flex-auto w-[calc(100%-30px)];
   }
   .textarea {
     @apply block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;

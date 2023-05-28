@@ -78,7 +78,7 @@ const News: FC<INewsProps> = ({
                             </Dropdown>
                         </div>
                         <span className=' font-bold text-base'>{(newsData?.total || 0)} новостей</span>
-                        <div className='grid grid-cols-3 gap-5'>
+                        <div className='grid grid-cols-1 max:sm:grid-cols-2 md:grid-cols-3 gap-5'>
                             {newsData?.news?.map(({ id, img, name, short_text, tag, categories, createdAt }) => {
                                 return (
                                     <ArticlePreview
