@@ -26,7 +26,7 @@ const Dashboard: FC<IDashboardProps> = () => {
                     <div className=' col-span-2 flex flex-col gap-6'>
                         <div className='card'></div>
                         <NewsCard />
-                        
+
                     </div>
                     {/* <div className='col-span-4'>
                         <div className='card h-full'></div>

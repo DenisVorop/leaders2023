@@ -26,7 +26,7 @@ const Slider: FC<ISliderProps> = ({
 
     return (
         <div ref={sliderRef} className="keen-slider min-w-full max-w-full">
-            {slides.map((slide, index) => {
+            {slides?.map((slide, index) => {
                 return <div
                     key={index}
                     className="keen-slider__slide"

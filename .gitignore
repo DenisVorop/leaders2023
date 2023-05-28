@@ -34,6 +34,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# mongo
+/data
+
 # service-workers
 **/public/workbox-*.js
 **/public/sw.js

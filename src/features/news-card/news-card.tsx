@@ -14,18 +14,18 @@ const NewsCard: React.FC<INewsCardProps> = () => {
     const [newsData, isLoading] = useNews({ newsParams: query })
 
     const slides = isTNewsData(newsData)
-        ? newsData.news.map(slide => {
+        ? newsData?.news?.map(slide => {
             return (
-                <Link key={slide.id} href={`${`/content/news/${slide.tag}`}`}>
+                <Link key={slide?.id} href={`${`/content/news/${slide?.tag}`}`}>
                     <div className='w-full h-[316px] relative rounded-lg overflow-hidden flex flex-col justify-end px-4 py-4 bg-shadow'>
-                        <div className='text-gray-50 text-xl font-bold mb-2'>{slide.name}</div>
-                        <p className=' text-base text-gray-100 h-[68px] overflow-hidden'>{slide.short_text}...</p>
+                        <div className='text-gray-50 text-xl font-bold mb-2'>{slide?.name}</div>
+                        <p className=' text-base text-gray-100 h-[68px] overflow-hidden'>{slide?.short_text}...</p>
                         <div className=' absolute w-full h-full top-0 left-0 right-0 bottom-0' style={{ zIndex: '-1' }}>
                             <Image
-                                src={toStatic(isArrayOfStrings(slide.img) ? slide.img[0] : slide.img)}
+                                src={toStatic(isArrayOfStrings(slide?.img) ? slide?.img[0] : slide?.img)}
                                 fill
                                 style={{ objectFit: 'cover' }}
-                                alt={slide.name}
+                                alt={slide?.name}
                             />
                         </div>
                     </div>

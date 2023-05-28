@@ -50,7 +50,7 @@ const Notification: FC = () => {
   }, [])
   const register = () => {
     pushApi.registerWebPush(
-      { userUID: session.email, topic: "global" },
+      { userUID: session?.email, topic: "global" },
       (sub: any) => {
         setSub(sub)
         notify({ type: "success", content: () => <div>Подписался на уведомления</div> })
@@ -77,7 +77,7 @@ const Notification: FC = () => {
     handleMessage(message)
   })
 
-  
+
   useEffect(() => {
     const currentDate = new Date();
     const oneDayAgo = new Date();
